@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ubi Smashers | Badminton Cost Sharing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="nav-left">
+      <div class="nav-logo">
+        <img src="logo.png" alt="Ubi Smashers logo">
+      </div>
+      <div>
+        <div class="nav-title">Ubi Smashers</div>
+        <div class="nav-sub">Ubi Badminton Hall (Above Giant)</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#players">Players</a>
+      <a href="#session">Sessions</a>
+      <a href="#history">History</a>
+      <a href="#monthly">Monthly Totals</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="badge">🏸 Community Badminton · Cost Sharing</div>
+      <h1>Ubi Smashers – play hard, share fair.</h1>
+      <p>
+        Track court and shuttle costs for Ubi Smashers. Select who played each session,
+        and the site will auto-calculate each player’s share and monthly total.
+      </p>
+      <div class="hero-meta">
+        <div class="pill">📍 Ubi Badminton Hall (Above Giant)</div>
+        <div class="pill">👥 Cost split only by attendees</div>
+        <div class="pill">💰 Transparent and fair</div>
+      </div>
+      <div class="cta-row">
+        <button class="btn btn-primary" onclick="document.getElementById('session').scrollIntoView({behavior:'smooth'})">
+          Add a Session
+        </button>
+        <button class="btn btn-ghost" onclick="document.getElementById('players').scrollIntoView({behavior:'smooth'})">
+          Manage Players
+        </button>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-logo">
+        <img src="logo.png" alt="Ubi Smashers logo">
+      </div>
+      <p><strong>How it works</strong></p>
+      <p>
+        1️⃣ Add players. 2️⃣ After each session, enter the costs and tick who played.
+        3️⃣ Check monthly totals per player below.
+      </p>
+    </div>
+  </section>
+
+  <section id="players">
+    <div class="card two-col">
+      <div>
+        <h2>Players</h2>
+        <p class="muted">
+          Add all regular players here once. You can remove later; old sessions keep their history.
+        </p>
+        <div class="mt-small">
+          <label for="newPlayer">Add player name</label>
+          <div class="inline-input">
+            <input type="text" id="newPlayer" placeholder="e.g. Mani" />
+            <button class="btn btn-primary" type="button" onclick="addPlayer()">Add</button>
+          </div>
+          <p id="playerError" class="muted error-text">
+            Please enter a unique player name.
+          </p>
+        </div>
+      </div>
+      <div>
+        <h2>Current player list</h2>
+        <div id="playerList" class="chips"></div>
+        <p class="muted mt-small">
+          Click ❌ to remove a player from new sessions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="session">
+    <div class="flex-row">
+      <div class="card">
+        <h2>New Session</h2>
+        <p class="muted">Enter session costs and who played, then click “Save session”.</p>
+        <div class="form-grid">
+          <div>
+            <label for="sessionDate">Date</label>
+            <input type="date" id="sessionDate">
+          </div>
+          <div>
+            <label for="courtCost">Court booking cost (S$)</label>
+            <input type="number" id="courtCost" min="0" step="0.01" placeholder="e.g. 48">
+          </div>
+          <div>
+            <label for="shuttleCost">Cost per shuttle (S$)</label>
+            <input type="number" id="shuttleCost" min="0" step="0.01" placeholder="e.g. 1.50">
+          </div>
+          <div>
+            <label for="shuttlesUsed">Number of shuttles used</label>
+            <input type="number" id="shuttlesUsed" min="0" step="1" placeholder="e.g. 12">
+          </div>
+        </div>
+
+        <div class="mt-small">
+          <label>Players who played this session</label>
+          <div id="playerChecklist" class="player-checklist"></div>
+        </div>
+
+        <div class="button-row mt-small">
+          <button class="btn btn-primary" type="button" onclick="saveSession()">Save session</button>
+          <button class="btn btn-ghost" type="button" onclick="clearSessionForm()">Clear</button>
+        </div>
+
+        <p id="sessionError" class="muted error-text">
+          Please fill all fields and select at least one player.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Session summary</h2>
+        <p class="muted">
+          This updates when you save a session.
+        </p>
+        <div class="mt-small">
+          <p class="muted">Total session cost</p>
+          <p id="summaryTotal" class="summary-main">S$0.00</p>
+        </div>
+        <div class="mt-small">
+          <p class="muted">Cost per player</p>
+          <p id="summaryPerPlayer" class="summary-main">S$0.00</p>
+        </div>
+        <div class="mt-small">
+          <p class="muted">Players counted</p>
+          <p id="summaryPlayers">–</p>
+        </div>
+        <p class="muted mt-small">
+          Tip: after saving, screenshot this card and share in the group so everyone
+          knows how much to pay.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="history">
+    <div class="card">
+      <h2>Session history</h2>
+      <p class="muted">
+        Sessions are stored in this browser (LocalStorage). Clearing browser data will reset them.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Court</th>
+              <th>Shuttles</th>
+              <th>Total</th>
+              <th>Players</th>
+              <th>$/player</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="monthly">
+    <div class="card">
+      <div class="header-row">
+        <div>
+          <h2>Monthly totals per player</h2>
+          <p class="muted">
+            Choose a month to see how much each player owes.
+          </p>
+        </div>
+        <div>
+          <label for="monthSelect">Month</label>
+          <select id="monthSelect" onchange="updateMonthlyTable()"></select>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Total (S$)</th>
+            </tr>
+          </thead>
+          <tbody id="monthlyBody"></tbody>
+        </table>
+      </div>
+      <p class="muted mt-small">
+        Note: data is stored only on this device. For a shared system across devices,
+        use a backend like Google Sheets.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Ubi Smashers · Ubi Badminton Hall (Above Giant)
+  </footer>
+</main>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Edit Session</h3>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div>
+          <label for="editDate">Date</label>
+          <input type="date" id="editDate">
+        </div>
+        <div>
+          <label for="editCourtCost">Court booking cost (S$)</label>
+          <input type="number" id="editCourtCost" min="0" step="0.01">
+        </div>
+        <div>
+          <label for="editShuttleCost">Cost per shuttle (S$)</label>
+          <input type="number" id="editShuttleCost" min="0" step="0.01">
+        </div>
+        <div>
+          <label for="editShuttlesUsed">Shuttles used</label>
+          <input type="number" id="editShuttlesUsed" min="0" step="1">
+        </div>
+      </div>
+      <div class="mt-small">
+        <label>Players who played this session</label>
+        <div id="editPlayerChecklist" class="player-checklist"></div>
+      </div>
+      <p id="editError" class="muted error-text">
+        Please fill all fields and select at least one player.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" type="button" onclick="closeEditModal()">Cancel</button>
+      <button class="btn btn-primary" type="button" onclick="saveEditChanges()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
