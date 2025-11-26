@@ -5,281 +5,393 @@
   <title>Ubi Smashers | Badminton Cost Sharing</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    :root {
-      --primary: #0f766e;
-      --primary-light: #e0f2f1;
-      --bg: #f3f4f6;
-      --dark: #0f172a;
-      --muted: #6b7280;
-      --radius: 14px;
-      --shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-    }
+<style>
+/* ========== FULL CSS START ========== */
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: #111827;
-      line-height: 1.5;
-    }
-    a { color: inherit; text-decoration: none; }
+/* General layout & theme */
+:root {
+  --primary: #0f766e;
+  --primary-light: #e0f2f1;
+  --bg: #f3f4f6;
+  --dark: #0f172a;
+  --muted: #6b7280;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(12px);
-      background: rgba(243, 244, 246, 0.9);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
-    }
-    .nav {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0.55rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-    }
-    .nav-left { display: flex; align-items: center; gap: 0.6rem; }
-    .nav-logo {
-      width: 42px; height: 42px; border-radius: 999px;
-      background: #fff; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
-    }
-    .nav-logo img { width: 100%; height: 100%; object-fit: contain; }
-    .nav-title { font-weight: 700; font-size: 1.05rem; color: var(--dark); }
-    .nav-sub { font-size: 0.8rem; color: var(--muted); }
-    .nav-links { display: flex; gap: 0.8rem; font-size: 0.85rem; }
-    .nav-links a {
-      padding: 0.3rem 0.7rem; border-radius: 999px;
-    }
-    .nav-links a:hover {
-      background: rgba(15, 23, 42, 0.05);
-    }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: #111827;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
 
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1.3rem 1rem 3rem;
-    }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+  background: rgba(243, 244, 246, 0.9);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+}
+.nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.55rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.nav-left { display: flex; align-items: center; gap: 0.6rem; }
+.nav-logo {
+  width: 42px; height: 42px; border-radius: 999px;
+  background: #fff; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+}
+.nav-logo img { width: 100%; height: 100%; object-fit: contain; }
+.nav-title { font-weight: 700; font-size: 1.05rem; color: var(--dark); }
+.nav-sub { font-size: 0.8rem; color: var(--muted); }
+.nav-links { display: flex; gap: 0.8rem; font-size: 0.85rem; }
 
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 1.8rem;
-      margin-bottom: 2rem;
-      align-items: center;
-    }
-    .badge {
-      display: inline-flex;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      background: var(--primary-light);
-      color: #0f766e;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-    .hero h1 {
-      font-size: clamp(1.9rem, 3vw, 2.3rem);
-      margin-bottom: 0.5rem;
-      color: var(--dark);
-    }
-    .hero p { color: var(--muted); font-size: 0.96rem; }
-    .hero-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1.1rem; }
-    .pill {
-      padding: 0.3rem 0.8rem;
-      background: #fff;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      font-size: 0.8rem;
-    }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-    .btn {
-      border-radius: 999px;
-      padding: 0.55rem 1rem;
-      font-size: 0.85rem;
-      border: none;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--primary); color: #ecfeff; font-weight: 600;
-      box-shadow: var(--shadow);
-    }
-    .btn-primary:hover { filter: brightness(1.03); transform: translateY(-1px); }
-    .btn-ghost {
-      background: transparent;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-    }
+.nav-links a {
+  padding: 0.3rem 0.7rem; border-radius: 999px;
+}
+.nav-links a:hover {
+  background: rgba(15, 23, 42, 0.05);
+}
 
-    .hero-card {
-      background: radial-gradient(circle at top left,#e0f2f1 0,#f9fafb 45%,#e5e7eb 100%);
-      border-radius: 20px;
-      padding: 1.2rem;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.7rem;
-    }
-    .hero-logo {
-      width: 120px; height: 120px;
-      border-radius: 999px; overflow: hidden;
-      background: #fff;
-      border: 2px solid rgba(45, 212, 191, 0.4);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .hero-logo img { width: 100%; height: 100%; object-fit: contain; }
-    .hero-card p { text-align: center; font-size: 0.85rem; color: var(--muted); }
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.3rem 1rem 3rem;
+}
 
-    section { margin-bottom: 2rem; }
-    section h2 { font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--dark); }
+/* HERO SECTION */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.8rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+.badge {
+  display: inline-flex;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: var(--primary-light);
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.hero h1 {
+  font-size: clamp(1.9rem, 3vw, 2.3rem);
+  margin-bottom: 0.5rem;
+  color: var(--dark);
+}
+.hero p { color: var(--muted); font-size: 0.96rem; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1.1rem; }
+.pill {
+  padding: 0.3rem 0.8rem;
+  background: #fff;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  font-size: 0.8rem;
+}
 
-    .card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 1rem 1rem;
-      box-shadow: var(--shadow);
-    }
+.cta-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.btn {
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--primary); color: #ecfeff; font-weight: 600;
+  box-shadow: var(--shadow);
+}
+.btn-primary:hover { filter: brightness(1.03); transform: translateY(-1px); }
 
-    .two-col {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      gap: 1.5rem;
-    }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
 
-    ul { margin-left: 1.1rem; margin-top: 0.3rem; }
-    li { margin-bottom: 0.3rem; font-size: 0.9rem; }
-    .muted { color: var(--muted); font-size: 0.85rem; }
+/* HERO RIGHT CARD */
+.hero-card {
+  background: radial-gradient(circle at top left,#e0f2f1 0,#f9fafb 45%,#e5e7eb 100%);
+  border-radius: 20px;
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+.hero-logo {
+  width: 120px; height: 120px;
+  border-radius: 999px; overflow: hidden;
+  background: #fff;
+  border: 2px solid rgba(45, 212, 191, 0.4);
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-logo img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* Layout blocks */
-    .flex-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      gap: 1.3rem;
-      align-items: flex-start;
-    }
+.hero-card p { text-align: center; font-size: 0.85rem; color: var(--muted); }
 
-    /* Forms */
-    label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 0.15rem;
-    }
-    input[type="text"],
-    input[type="number"],
-    input[type="date"],
-    select {
-      width: 100%;
-      padding: 0.45rem 0.55rem;
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      font-size: 0.85rem;
-      outline: none;
-      background: #f9fafb;
-    }
-    input:focus, select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.4);
-      background: #fff;
-    }
+/* Continue CSS in Part 2... */
+  /* ========== CONTINUED CSS (PART 2) ========== */
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.7rem;
-      margin-top: 0.6rem;
-    }
+section { 
+  margin-bottom: 2rem; 
+}
+section h2 { 
+  font-size: 1.25rem; 
+  margin-bottom: 0.6rem; 
+  color: var(--dark); 
+}
 
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.4rem;
-    }
-    .chip {
-      background: #f9fafb;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184,0.8);
-      padding: 0.2rem 0.65rem;
-      font-size: 0.78rem;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .chip span.remove {
-      cursor: pointer;
-      font-weight: 700;
-      color: #b91c1c;
-    }
+/* CARD */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 1rem 1rem;
+  box-shadow: var(--shadow);
+}
 
-    /* Player checklist for session */
-    .player-checklist {
-      max-height: 190px;
-      overflow-y: auto;
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      padding: 0.4rem 0.5rem;
-      background: #f9fafb;
-    }
-    .player-checklist div {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.86rem;
-      margin-bottom: 0.2rem;
-    }
+/* GRID LAYOUTS */
+.two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+}
 
-    /* Tables */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      margin-top: 0.5rem;
-    }
-    th, td {
-      padding: 0.4rem 0.35rem;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-    }
-    th { background: #f9fafb; font-weight: 600; font-size: 0.78rem; }
-    tbody tr:nth-child(even) { background: #f9fafb; }
+.flex-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 1.3rem;
+  align-items: flex-start;
+}
 
-    .table-scroll {
-      max-height: 260px;
-      overflow: auto;
-    }
+/* TEXT UTILITIES */
+.muted { 
+  color: var(--muted); 
+  font-size: 0.85rem; 
+}
+.mt-small { 
+  margin-top: 0.6rem; 
+}
 
-    footer {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 1rem;
-    }
+/* FORM INPUTS */
+label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.15rem;
+}
 
-    @media (max-width: 900px) {
-      .hero, .two-col, .flex-row { grid-template-columns: minmax(0, 1fr); }
-      .hero-card { order: -1; }
-      .nav-links { display: none; }
-    }
-    @media (max-width: 600px) {
-      main { padding: 1rem 0.8rem 2.4rem; }
-      .card { padding: 0.9rem 0.9rem; }
-      .form-grid { grid-template-columns: minmax(0, 1fr); }
-    }
-  </style>
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  font-size: 0.85rem;
+  outline: none;
+  background: #f9fafb;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.4);
+  background: #fff;
+}
+
+/* FORM GRID */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+}
+
+/* PLAYER CHIPS */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+.chip {
+  background: #f9fafb;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184,0.8);
+  padding: 0.2rem 0.65rem;
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.chip span.remove {
+  cursor: pointer;
+  font-weight: 700;
+  color: #b91c1c;
+}
+
+/* PLAYER CHECKLIST */
+.player-checklist {
+  max-height: 190px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  padding: 0.4rem 0.5rem;
+  background: #f9fafb;
+}
+.player-checklist div {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+  margin-bottom: 0.2rem;
+}
+
+.inline-input {
+  display:flex;
+  gap:0.5rem;
+  margin-bottom:0.4rem;
+}
+
+/* BUTTON ROWS */
+.button-row {
+  display:flex;
+  gap:0.6rem;
+  flex-wrap:wrap;
+}
+
+.summary-main {
+  font-size:1.4rem;
+  font-weight:700;
+}
+
+.error-text {
+  color:#b91c1c;
+  display:none;
+}
+
+/* MONTHLY TABLE */
+.header-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:0.7rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin-top: 0.5rem;
+}
+th, td {
+  padding: 0.4rem 0.35rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+th { 
+  background: #f9fafb; 
+  font-weight: 600; 
+  font-size: 0.78rem; 
+}
+tbody tr:nth-child(even) { background: #f9fafb; }
+
+.table-scroll {
+  max-height: 260px;
+  overflow: auto;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+
+/* EDIT MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(15,23,42,0.3);
+}
+
+.modal-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:0.5rem;
+}
+
+.modal-close {
+  border:none;
+  background:transparent;
+  font-size:1.1rem;
+  cursor:pointer;
+}
+
+.modal-footer {
+  margin-top:0.9rem;
+  display:flex;
+  justify-content:flex-end;
+  gap:0.5rem;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 900px) {
+  .hero,
+  .two-col,
+  .flex-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 600px) {
+  main { padding: 1rem 0.8rem 2.4rem; }
+  .card { padding: 0.9rem 0.9rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .modal { max-width: 95%; }
+}
+
+/* ========== END OF CSS PART 2 ========== */
+</style>
 </head>
 <body>
+
 <header>
   <div class="nav">
     <div class="nav-left">
       <div class="nav-logo">
-        <!-- Save your logo as logo.png in same folder as this file -->
         <img src="logo.png" alt="Ubi Smashers logo">
       </div>
       <div>
@@ -287,6 +399,7 @@
         <div class="nav-sub">Ubi Badminton Hall (Above Giant)</div>
       </div>
     </div>
+
     <nav class="nav-links">
       <a href="#players">Players</a>
       <a href="#session">Sessions</a>
@@ -296,151 +409,163 @@
   </div>
 </header>
 
+
 <main>
-  <!-- HERO -->
+
+  <!-- HERO SECTION -->
   <section class="hero">
     <div>
       <div class="badge">🏸 Community Badminton · Cost Sharing</div>
       <h1>Ubi Smashers – play hard, share fair.</h1>
+
       <p>
-        Simple tool for our Ubi Smashers group (~20 players) to track court and shuttle costs.
-        Select who played each session, and the site will auto-calculate each player’s share
-        and monthly total.
+        Track court booking & shuttle costs, select players who attended each session,
+        and the system will auto-calculate each player’s total.
       </p>
+
       <div class="hero-meta">
         <div class="pill">📍 Ubi Badminton Hall (Above Giant)</div>
-        <div class="pill">👥 Cost split only by attendees</div>
-        <div class="pill">💰 Transparent and fair</div>
+        <div class="pill">👥 Split fairly between attendees</div>
+        <div class="pill">💰 Transparent calculations</div>
       </div>
+
       <div class="cta-row">
-        <button class="btn btn-primary" onclick="document.getElementById('session').scrollIntoView({behavior:'smooth'})">
+        <button class="btn btn-primary"
+                onclick="document.getElementById('session').scrollIntoView({behavior:'smooth'})">
           Add a Session
         </button>
-        <button class="btn btn-ghost" onclick="document.getElementById('players').scrollIntoView({behavior:'smooth'})">
+
+        <button class="btn btn-ghost"
+                onclick="document.getElementById('players').scrollIntoView({behavior:'smooth'})">
           Manage Players
         </button>
       </div>
     </div>
+
     <div class="hero-card">
       <div class="hero-logo">
         <img src="logo.png" alt="Ubi Smashers logo">
       </div>
-      <p><strong>How it works</strong></p>
+      <p><strong>How it works:</strong></p>
       <p>
-        1️⃣ Add your players once. 2️⃣ After each session, enter the costs and tick who played.
-        3️⃣ Check monthly totals per player at the bottom.
+        1️⃣ Add players<br>
+        2️⃣ Add new session & tick who played<br>
+        3️⃣ Amount is auto calculated<br>
+        4️⃣ Check monthly totals anytime
       </p>
     </div>
   </section>
 
-  <!-- PLAYERS -->
+
+  <!-- PLAYERS SECTION -->
   <section id="players">
     <div class="card two-col">
       <div>
         <h2>Players</h2>
         <p class="muted">
-          Add all regular players here once. You can remove and re-order anytime.
+          Add all players in your Ubi Smashers group. Removing a player will not
+          affect past sessions.
         </p>
-        <div style="margin-top:0.6rem;">
+
+        <div class="mt-small">
           <label for="newPlayer">Add player name</label>
-          <div style="display:flex; gap:0.5rem; margin-bottom:0.4rem;">
+
+          <div class="inline-input">
             <input type="text" id="newPlayer" placeholder="e.g. Mani" />
             <button class="btn btn-primary" type="button" onclick="addPlayer()">Add</button>
           </div>
-          <p id="playerError" class="muted" style="color:#b91c1c; display:none;">
+
+          <p id="playerError" class="muted error-text">
             Please enter a unique player name.
           </p>
         </div>
       </div>
+
       <div>
-        <h2>Current player list</h2>
+        <h2>Current Player List</h2>
         <div id="playerList" class="chips"></div>
-        <p class="muted" style="margin-top:0.6rem;">
-          Click ❌ to remove a player. (Existing past sessions will keep that name in history,
-          but they won't show in new sessions.)
-        </p>
       </div>
     </div>
   </section>
 
-  <!-- SESSION INPUT + LIVE RESULT -->
+
+  <!-- ADD SESSION SECTION -->
   <section id="session">
     <div class="flex-row">
+
       <div class="card">
         <h2>New Session</h2>
-        <p class="muted">Fill in the costs and select who played. Then click “Save session”.</p>
+        <p class="muted">Enter costs & select who played.</p>
+
         <div class="form-grid">
           <div>
             <label for="sessionDate">Date</label>
             <input type="date" id="sessionDate">
           </div>
+
           <div>
-            <label for="courtCost">Court booking cost (S$)</label>
+            <label for="courtCost">Court booking (S$)</label>
             <input type="number" id="courtCost" min="0" step="0.01" placeholder="e.g. 48">
           </div>
+
           <div>
-            <label for="shuttleCost">Cost per shuttle (S$)</label>
+            <label for="shuttleCost">Shuttle cost (S$)</label>
             <input type="number" id="shuttleCost" min="0" step="0.01" placeholder="e.g. 1.50">
           </div>
+
           <div>
-            <label for="shuttlesUsed">Number of shuttles used</label>
+            <label for="shuttlesUsed">Shuttles used</label>
             <input type="number" id="shuttlesUsed" min="0" step="1" placeholder="e.g. 12">
           </div>
         </div>
 
-        <div style="margin-top:0.8rem;">
-          <label>Players who played this session</label>
-          <div id="playerChecklist" class="player-checklist">
-            <!-- checkboxes injected by JS -->
-          </div>
+        <div class="mt-small">
+          <label>Who played this session?</label>
+          <div id="playerChecklist" class="player-checklist"></div>
         </div>
 
-        <div style="margin-top:0.9rem; display:flex; gap:0.6rem; flex-wrap:wrap;">
-          <button class="btn btn-primary" type="button" onclick="saveSession()">Save session</button>
-          <button class="btn btn-ghost" type="button" onclick="clearSessionForm()">Clear</button>
+        <div class="button-row mt-small">
+          <button class="btn btn-primary" onclick="saveSession()">Save session</button>
+          <button class="btn btn-ghost" onclick="clearSessionForm()">Clear</button>
         </div>
 
-        <p id="sessionError" class="muted" style="color:#b91c1c; display:none; margin-top:0.5rem;">
-          Please fill all costs and select at least one player.
+        <p id="sessionError" class="muted error-text">
+          Please fill all fields and select at least one player.
         </p>
       </div>
 
+
+      <!-- SESSION SUMMARY -->
       <div class="card">
-        <h2>Session summary</h2>
-        <p class="muted">
-          This updates when you click “Save session”.
-        </p>
-        <div style="margin-top:0.7rem;">
+        <h2>Session Summary</h2>
+
+        <div class="mt-small">
           <p class="muted">Total session cost</p>
-          <p id="summaryTotal" style="font-size:1.4rem; font-weight:700;">S$0.00</p>
+          <p id="summaryTotal" class="summary-main">S$0.00</p>
         </div>
-        <div style="margin-top:0.7rem;">
+
+        <div class="mt-small">
           <p class="muted">Cost per player</p>
-          <p id="summaryPerPlayer" style="font-size:1.4rem; font-weight:700;">S$0.00</p>
+          <p id="summaryPerPlayer" class="summary-main">S$0.00</p>
         </div>
-        <div style="margin-top:0.8rem;">
+
+        <div class="mt-small">
           <p class="muted">Players counted</p>
           <p id="summaryPlayers">–</p>
         </div>
-        <div style="margin-top:0.8rem;">
-          <p class="muted">Tip:</p>
-          <p class="muted">
-            After saving, you can take a screenshot of this card and share in the group so everyone
-            knows how much to pay.
-          </p>
-        </div>
+
       </div>
+
     </div>
   </section>
+
 
   <!-- SESSION HISTORY -->
   <section id="history">
     <div class="card">
-      <h2>Session history</h2>
-      <p class="muted">
-        All sessions you save are stored in your browser (local to this device). Clearing browser
-        data will reset everything.
-      </p>
+      <h2>Session History</h2>
+      <p class="muted">Your previously saved sessions appear here.</p>
+
       <div class="table-scroll">
         <table>
           <thead>
@@ -451,30 +576,30 @@
               <th>Total</th>
               <th>Players</th>
               <th>$/player</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="historyBody">
-          </tbody>
+
+          <tbody id="historyBody"></tbody>
         </table>
       </div>
+
     </div>
   </section>
+
 
   <!-- MONTHLY TOTALS -->
   <section id="monthly">
     <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:0.7rem;">
+      <div class="header-row">
         <div>
-          <h2>Monthly totals per player</h2>
-          <p class="muted">
-            Choose a month to see how much each player owes based on sessions saved above.
-          </p>
+          <h2>Monthly Totals</h2>
+          <p class="muted">Select a month to view each player’s total.</p>
         </div>
+
         <div>
           <label for="monthSelect">Month</label>
-          <select id="monthSelect" onchange="updateMonthlyTable()">
-            <!-- options injected by JS -->
-          </select>
+          <select id="monthSelect" onchange="updateMonthlyTable()"></select>
         </div>
       </div>
 
@@ -486,231 +611,419 @@
               <th>Total (S$)</th>
             </tr>
           </thead>
-          <tbody id="monthlyBody">
-          </tbody>
+
+          <tbody id="monthlyBody"></tbody>
         </table>
       </div>
-      <p class="muted" style="margin-top:0.5rem;">
-        Note: data is stored only in this browser. To make this fully shared across devices and people,
-        you’d need a shared backend like Google Sheets.
-      </p>
     </div>
   </section>
 
+
   <footer>
-    © <span id="year"></span> Ubi Smashers · Ubi Badminton Hall (Above Giant)
+    © <span id="year"></span> Ubi Smashers · Ubi Badminton Hall
   </footer>
+
 </main>
 
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal-overlay">
+  <div class="modal">
+
+    <div class="modal-header">
+      <h3>Edit Session</h3>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-grid">
+
+        <div>
+          <label for="editDate">Date</label>
+          <input type="date" id="editDate">
+        </div>
+
+        <div>
+          <label for="editCourtCost">Court booking (S$)</label>
+          <input type="number" id="editCourtCost" step="0.01">
+        </div>
+
+        <div>
+          <label for="editShuttleCost">Shuttle cost (S$)</label>
+          <input type="number" id="editShuttleCost" step="0.01">
+        </div>
+
+        <div>
+          <label for="editShuttlesUsed">Shuttles used</label>
+          <input type="number" id="editShuttlesUsed">
+        </div>
+
+      </div>
+
+      <div class="mt-small">
+        <label>Players who played</label>
+        <div id="editPlayerChecklist" class="player-checklist"></div>
+      </div>
+
+      <p id="editError" class="muted error-text">
+        Please fill all fields and select at least one player.
+      </p>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditChanges()">Save changes</button>
+    </div>
+
+  </div>
+</div>
 <script>
-  // --- Data storage helpers ---
-  let players = [];
-  let sessions = [];
+/* ============================
+   UBI SMASHERS — JAVASCRIPT
+============================ */
 
-  function loadData() {
-    const p = localStorage.getItem("ubiPlayers");
-    const s = localStorage.getItem("ubiSessions");
-    players = p ? JSON.parse(p) : [];
-    sessions = s ? JSON.parse(s) : [];
-    if (players.length === 0) {
-      players = ["Player 1", "Player 2"]; // starter example
-    }
+let players = [];
+let sessions = [];
+let currentEditId = null;
+
+/* Unique ID generator */
+function makeId() {
+  return "s_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+}
+
+/* Load saved data */
+function loadData() {
+  const p = localStorage.getItem("ubiPlayers");
+  const s = localStorage.getItem("ubiSessions");
+
+  players = p ? JSON.parse(p) : [];
+  sessions = s ? JSON.parse(s) : [];
+
+  if (players.length === 0) {
+    players = ["Player 1", "Player 2"];
   }
 
-  function saveData() {
-    localStorage.setItem("ubiPlayers", JSON.stringify(players));
-    localStorage.setItem("ubiSessions", JSON.stringify(sessions));
-  }
+  sessions.forEach(sess => {
+    if (!sess.id) sess.id = makeId();
+  });
+}
 
-  // --- UI Renders ---
-  function renderPlayers() {
-    const list = document.getElementById("playerList");
-    list.innerHTML = "";
-    players.forEach((name, idx) => {
-      const chip = document.createElement("div");
-      chip.className = "chip";
-      chip.innerHTML = `<span>${name}</span><span class="remove" onclick="removePlayer(${idx})">❌</span>`;
-      list.appendChild(chip);
-    });
+/* Save to browser storage */
+function saveData() {
+  localStorage.setItem("ubiPlayers", JSON.stringify(players));
+  localStorage.setItem("ubiSessions", JSON.stringify(sessions));
+}
 
-    const checklist = document.getElementById("playerChecklist");
-    checklist.innerHTML = "";
-    players.forEach((name, idx) => {
-      const row = document.createElement("div");
-      row.innerHTML = `
-        <input type="checkbox" id="pc_${idx}" value="${name}">
-        <label for="pc_${idx}" style="font-weight:400;">${name}</label>
-      `;
-      checklist.appendChild(row);
-    });
-  }
+/* Render players & checklist */
+function renderPlayers() {
+  const list = document.getElementById("playerList");
+  list.innerHTML = "";
 
-  function renderHistory() {
-    const body = document.getElementById("historyBody");
-    body.innerHTML = "";
-    sessions.forEach((s) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${s.date}</td>
-        <td>S$${s.courtCost.toFixed(2)}</td>
-        <td>${s.shuttlesUsed} × S$${s.shuttleCost.toFixed(2)}</td>
-        <td>S$${s.total.toFixed(2)}</td>
-        <td>${s.players.join(", ")}</td>
-        <td>S$${s.perPlayer.toFixed(2)}</td>
-      `;
-      body.appendChild(tr);
-    });
-  }
+  players.forEach((name, idx) => {
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.innerHTML = `
+      <span>${name}</span>
+      <span class="remove" onclick="removePlayer(${idx})">❌</span>
+    `;
+    list.appendChild(chip);
+  });
 
-  function renderMonthOptions() {
-    const select = document.getElementById("monthSelect");
-    const monthsSet = new Set();
-    sessions.forEach((s) => monthsSet.add(s.monthKey));
-    const months = Array.from(monthsSet).sort();
+  const check = document.getElementById("playerChecklist");
+  check.innerHTML = "";
 
-    select.innerHTML = "";
-    if (months.length === 0) {
+  players.forEach((name, idx) => {
+    const row = document.createElement("div");
+    row.innerHTML = `
+      <input type="checkbox" id="pc_${idx}" value="${name}">
+      <label for="pc_${idx}" style="font-weight:400;">${name}</label>
+    `;
+    check.appendChild(row);
+  });
+}
+
+/* Render history table */
+function renderHistory() {
+  const body = document.getElementById("historyBody");
+  body.innerHTML = "";
+
+  sessions.forEach(s => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${s.date}</td>
+      <td>S$${s.courtCost.toFixed(2)}</td>
+      <td>${s.shuttlesUsed} × S$${s.shuttleCost.toFixed(2)}</td>
+      <td>S$${s.total.toFixed(2)}</td>
+      <td>${s.players.join(", ")}</td>
+      <td>S$${s.perPlayer.toFixed(2)}</td>
+      <td>
+        <button class="btn-small" onclick="openEditModal('${s.id}')">Edit</button>
+        <button class="btn-small danger" onclick="deleteSession('${s.id}')">Delete</button>
+      </td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+/* Render month dropdown */
+function renderMonthOptions() {
+  const select = document.getElementById("monthSelect");
+  const monthsSet = new Set();
+
+  sessions.forEach(s => monthsSet.add(s.monthKey));
+
+  const months = Array.from(monthsSet).filter(Boolean).sort();
+  select.innerHTML = "";
+
+  if (months.length === 0) {
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "No sessions yet";
+    select.appendChild(opt);
+  } else {
+    months.forEach(m => {
       const opt = document.createElement("option");
-      opt.value = "";
-      opt.textContent = "No sessions yet";
+      opt.value = m;
+      opt.textContent = m;
       select.appendChild(opt);
-    } else {
-      months.forEach((m) => {
-        const opt = document.createElement("option");
-        opt.value = m;
-        opt.textContent = m; // YYYY-MM
-        select.appendChild(opt);
+    });
+  }
+}
+
+/* Render monthly totals */
+function updateMonthlyTable() {
+  const body = document.getElementById("monthlyBody");
+  body.innerHTML = "";
+
+  const monthKey = document.getElementById("monthSelect").value;
+  if (!monthKey) return;
+
+  const totals = {};
+
+  sessions
+    .filter(s => s.monthKey === monthKey)
+    .forEach(s => {
+      s.players.forEach(p => {
+        totals[p] = (totals[p] || 0) + s.perPlayer;
       });
-    }
-  }
-
-  function updateMonthlyTable() {
-    const body = document.getElementById("monthlyBody");
-    body.innerHTML = "";
-    const select = document.getElementById("monthSelect");
-    const monthKey = select.value;
-    if (!monthKey) return;
-
-    const totals = {};
-    sessions
-      .filter((s) => s.monthKey === monthKey)
-      .forEach((s) => {
-        s.players.forEach((p) => {
-          totals[p] = (totals[p] || 0) + s.perPlayer;
-        });
-      });
-
-    const playerNames = Object.keys(totals).sort();
-    if (playerNames.length === 0) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="2">No data for this month.</td>`;
-      body.appendChild(tr);
-      return;
-    }
-
-    playerNames.forEach((name) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${name}</td><td>S$${totals[name].toFixed(2)}</td>`;
-      body.appendChild(tr);
-    });
-  }
-
-  // --- Player management ---
-  function addPlayer() {
-    const input = document.getElementById("newPlayer");
-    const name = input.value.trim();
-    const err = document.getElementById("playerError");
-    err.style.display = "none";
-    if (!name || players.map((p) => p.toLowerCase()).includes(name.toLowerCase())) {
-      err.style.display = "block";
-      return;
-    }
-    players.push(name);
-    input.value = "";
-    saveData();
-    renderPlayers();
-  }
-
-  function removePlayer(idx) {
-    if (!confirm("Remove this player from new sessions?")) return;
-    players.splice(idx, 1);
-    saveData();
-    renderPlayers();
-  }
-
-  // --- Session logic ---
-  function saveSession() {
-    const dateEl = document.getElementById("sessionDate");
-    const courtCostEl = document.getElementById("courtCost");
-    const shuttleCostEl = document.getElementById("shuttleCost");
-    const shuttlesUsedEl = document.getElementById("shuttlesUsed");
-    const err = document.getElementById("sessionError");
-    err.style.display = "none";
-
-    const date = dateEl.value;
-    const courtCost = parseFloat(courtCostEl.value);
-    const shuttleCost = parseFloat(shuttleCostEl.value);
-    const shuttlesUsed = parseFloat(shuttlesUsedEl.value);
-
-    const selectedPlayers = [];
-    players.forEach((name, idx) => {
-      const cb = document.getElementById("pc_" + idx);
-      if (cb && cb.checked) selectedPlayers.push(name);
     });
 
-    if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
-      err.style.display = "block";
-      return;
-    }
+  const names = Object.keys(totals).sort();
 
-    const total = courtCost + shuttleCost * shuttlesUsed;
-    const perPlayer = total / selectedPlayers.length;
-    const monthKey = date.slice(0, 7); // YYYY-MM from YYYY-MM-DD
-
-    const session = {
-      date,
-      monthKey,
-      courtCost,
-      shuttleCost,
-      shuttlesUsed,
-      total,
-      perPlayer,
-      players: selectedPlayers
-    };
-    sessions.push(session);
-    saveData();
-
-    // Update summary card
-    document.getElementById("summaryTotal").textContent = "S$" + total.toFixed(2);
-    document.getElementById("summaryPerPlayer").textContent = "S$" + perPlayer.toFixed(2);
-    document.getElementById("summaryPlayers").textContent = selectedPlayers.length + " player(s)";
-
-    renderHistory();
-    renderMonthOptions();
-    updateMonthlyTable();
+  if (names.length === 0) {
+    body.innerHTML = `<tr><td colspan="2">No data for this month.</td></tr>`;
+    return;
   }
 
-  function clearSessionForm() {
-    ["sessionDate", "courtCost", "shuttleCost", "shuttlesUsed"].forEach((id) => {
-      document.getElementById(id).value = "";
-    });
-    players.forEach((_, idx) => {
-      const cb = document.getElementById("pc_" + idx);
-      if (cb) cb.checked = false;
-    });
-    document.getElementById("sessionError").style.display = "none";
-    document.getElementById("summaryTotal").textContent = "S$0.00";
-    document.getElementById("summaryPerPlayer").textContent = "S$0.00";
-    document.getElementById("summaryPlayers").textContent = "–";
+  names.forEach(name => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${name}</td>
+      <td>S$${totals[name].toFixed(2)}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+/* Add new player */
+function addPlayer() {
+  const input = document.getElementById("newPlayer");
+  const name = input.value.trim();
+  const err = document.getElementById("playerError");
+
+  err.style.display = "none";
+
+  if (!name || players.map(p => p.toLowerCase()).includes(name.toLowerCase())) {
+    err.style.display = "block";
+    return;
   }
 
-  // --- Init ---
+  players.push(name);
+  input.value = "";
+
+  saveData();
+  renderPlayers();
+}
+
+/* Remove player (only affects new sessions) */
+function removePlayer(idx) {
+  if (!confirm("Remove this player from new sessions?")) return;
+
+  players.splice(idx, 1);
+  saveData();
+  renderPlayers();
+}
+
+/* Save session */
+function saveSession() {
+  const date = document.getElementById("sessionDate").value;
+  const courtCost = parseFloat(document.getElementById("courtCost").value);
+  const shuttleCost = parseFloat(document.getElementById("shuttleCost").value);
+  const shuttlesUsed = parseFloat(document.getElementById("shuttlesUsed").value);
+  const err = document.getElementById("sessionError");
+
+  err.style.display = "none";
+
+  const selectedPlayers = [];
+  players.forEach((name, idx) => {
+    const cb = document.getElementById("pc_" + idx);
+    if (cb && cb.checked) selectedPlayers.push(name);
+  });
+
+  if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
+    err.style.display = "block";
+    return;
+  }
+
+  const total = courtCost + shuttleCost * shuttlesUsed;
+  const perPlayer = total / selectedPlayers.length;
+
+  const session = {
+    id: makeId(),
+    date,
+    monthKey: date.slice(0, 7),
+    courtCost,
+    shuttleCost,
+    shuttlesUsed,
+    total,
+    perPlayer,
+    players: selectedPlayers
+  };
+
+  sessions.push(session);
+  saveData();
+
+  document.getElementById("summaryTotal").textContent = "S$" + total.toFixed(2);
+  document.getElementById("summaryPerPlayer").textContent = "S$" + perPlayer.toFixed(2);
+  document.getElementById("summaryPlayers").textContent = selectedPlayers.length + " player(s)";
+
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
+}
+
+/* Clear new session form */
+function clearSessionForm() {
+  ["sessionDate", "courtCost", "shuttleCost", "shuttlesUsed"]
+    .forEach(id => document.getElementById(id).value = "");
+
+  players.forEach((_, idx) => {
+    const cb = document.getElementById("pc_" + idx);
+    if (cb) cb.checked = false;
+  });
+
+  document.getElementById("summaryTotal").textContent = "S$0.00";
+  document.getElementById("summaryPerPlayer").textContent = "S$0.00";
+  document.getElementById("summaryPlayers").textContent = "–";
+  document.getElementById("sessionError").style.display = "none";
+}
+
+/* Open edit session modal */
+function openEditModal(id) {
+  currentEditId = id;
+  const session = sessions.find(s => s.id === id);
+  if (!session) return;
+
+  document.getElementById("editDate").value = session.date;
+  document.getElementById("editCourtCost").value = session.courtCost;
+  document.getElementById("editShuttleCost").value = session.shuttleCost;
+  document.getElementById("editShuttlesUsed").value = session.shuttlesUsed;
+
+  const container = document.getElementById("editPlayerChecklist");
+  container.innerHTML = "";
+
+  const unionPlayers = Array.from(new Set([...players, ...session.players]));
+
+  unionPlayers.forEach((name, idx) => {
+    const checked = session.players.includes(name);
+
+    const row = document.createElement("div");
+    row.innerHTML = `
+      <input type="checkbox" id="epc_${idx}" value="${name}" ${checked ? "checked" : ""}>
+      <label for="epc_${idx}" style="font-weight:400;">${name}</label>
+    `;
+    container.appendChild(row);
+  });
+
+  document.getElementById("editModal").style.display = "flex";
+  document.getElementById("editError").style.display = "none";
+}
+
+/* Close edit modal */
+function closeEditModal() {
+  currentEditId = null;
+  document.getElementById("editModal").style.display = "none";
+}
+
+/* Save edit changes */
+function saveEditChanges() {
+  if (!currentEditId) return;
+
+  const session = sessions.find(s => s.id === currentEditId);
+  if (!session) return;
+
+  const err = document.getElementById("editError");
+  err.style.display = "none";
+
+  const date = document.getElementById("editDate").value;
+  const courtCost = parseFloat(document.getElementById("editCourtCost").value);
+  const shuttleCost = parseFloat(document.getElementById("editShuttleCost").value);
+  const shuttlesUsed = parseFloat(document.getElementById("editShuttlesUsed").value);
+
+  const selectedPlayers = [];
+  const checkboxes = document.querySelectorAll("#editPlayerChecklist input");
+
+  checkboxes.forEach(cb => {
+    if (cb.checked) selectedPlayers.push(cb.value);
+  });
+
+  if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
+    err.style.display = "block";
+    return;
+  }
+
+  const total = courtCost + shuttleCost * shuttlesUsed;
+  const perPlayer = total / selectedPlayers.length;
+
+  session.date = date;
+  session.monthKey = date.slice(0, 7);
+  session.courtCost = courtCost;
+  session.shuttleCost = shuttleCost;
+  session.shuttlesUsed = shuttlesUsed;
+  session.total = total;
+  session.perPlayer = perPlayer;
+  session.players = selectedPlayers;
+
+  saveData();
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
+  closeEditModal();
+}
+
+/* Delete a session */
+function deleteSession(id) {
+  if (!confirm("Delete this session?")) return;
+
+  sessions = sessions.filter(s => s.id !== id);
+  saveData();
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
+}
+
+/* Initialize page */
+document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("year").textContent = new Date().getFullYear();
+
   loadData();
   renderPlayers();
   renderHistory();
   renderMonthOptions();
   updateMonthlyTable();
+});
 </script>
+
 </body>
 </html>
