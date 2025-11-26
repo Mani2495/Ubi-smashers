@@ -4,13 +4,282 @@
   <meta charset="UTF-8" />
   <title>Ubi Smashers | Badminton Cost Sharing</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-light: #e0f2f1;
+      --bg: #f3f4f6;
+      --dark: #0f172a;
+      --muted: #6b7280;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: #111827;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(243, 244, 246, 0.9);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+    }
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.55rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .nav-left { display: flex; align-items: center; gap: 0.6rem; }
+    .nav-logo {
+      width: 42px; height: 42px; border-radius: 999px;
+      background: #fff; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+    }
+    .nav-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .nav-title { font-weight: 700; font-size: 1.05rem; color: var(--dark); }
+    .nav-sub { font-size: 0.8rem; color: var(--muted); }
+    .nav-links { display: flex; gap: 0.8rem; font-size: 0.85rem; }
+    .nav-links a {
+      padding: 0.3rem 0.7rem; border-radius: 999px;
+    }
+    .nav-links a:hover {
+      background: rgba(15, 23, 42, 0.05);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.3rem 1rem 3rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.8rem;
+      margin-bottom: 2rem;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: #0f766e;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.9rem, 3vw, 2.3rem);
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    .hero p { color: var(--muted); font-size: 0.96rem; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1.1rem; }
+    .pill {
+      padding: 0.3rem 0.8rem;
+      background: #fff;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.8rem;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .btn {
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--primary); color: #ecfeff; font-weight: 600;
+      box-shadow: var(--shadow);
+    }
+    .btn-primary:hover { filter: brightness(1.03); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left,#e0f2f1 0,#f9fafb 45%,#e5e7eb 100%);
+      border-radius: 20px;
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .hero-logo {
+      width: 120px; height: 120px;
+      border-radius: 999px; overflow: hidden;
+      background: #fff;
+      border: 2px solid rgba(45, 212, 191, 0.4);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .hero-card p { text-align: center; font-size: 0.85rem; color: var(--muted); }
+
+    section { margin-bottom: 2rem; }
+    section h2 { font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--dark); }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1rem 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+
+    ul { margin-left: 1.1rem; margin-top: 0.3rem; }
+    li { margin-bottom: 0.3rem; font-size: 0.9rem; }
+    .muted { color: var(--muted); font-size: 0.85rem; }
+
+    /* Layout blocks */
+    .flex-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 1.3rem;
+      align-items: flex-start;
+    }
+
+    /* Forms */
+    label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 0.45rem 0.55rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      font-size: 0.85rem;
+      outline: none;
+      background: #f9fafb;
+    }
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.4);
+      background: #fff;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-top: 0.6rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+    .chip {
+      background: #f9fafb;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184,0.8);
+      padding: 0.2rem 0.65rem;
+      font-size: 0.78rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .chip span.remove {
+      cursor: pointer;
+      font-weight: 700;
+      color: #b91c1c;
+    }
+
+    /* Player checklist for session */
+    .player-checklist {
+      max-height: 190px;
+      overflow-y: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 0.4rem 0.5rem;
+      background: #f9fafb;
+    }
+    .player-checklist div {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.86rem;
+      margin-bottom: 0.2rem;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 0.5rem;
+    }
+    th, td {
+      padding: 0.4rem 0.35rem;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+    th { background: #f9fafb; font-weight: 600; font-size: 0.78rem; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+
+    .table-scroll {
+      max-height: 260px;
+      overflow: auto;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .two-col, .flex-row { grid-template-columns: minmax(0, 1fr); }
+      .hero-card { order: -1; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      main { padding: 1rem 0.8rem 2.4rem; }
+      .card { padding: 0.9rem 0.9rem; }
+      .form-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
 </head>
 <body>
 <header>
   <div class="nav">
     <div class="nav-left">
       <div class="nav-logo">
+        <!-- Save your logo as logo.png in same folder as this file -->
         <img src="logo.png" alt="Ubi Smashers logo">
       </div>
       <div>
@@ -28,13 +297,15 @@
 </header>
 
 <main>
+  <!-- HERO -->
   <section class="hero">
     <div>
       <div class="badge">🏸 Community Badminton · Cost Sharing</div>
       <h1>Ubi Smashers – play hard, share fair.</h1>
       <p>
-        Track court and shuttle costs for Ubi Smashers. Select who played each session,
-        and the site will auto-calculate each player’s share and monthly total.
+        Simple tool for our Ubi Smashers group (~20 players) to track court and shuttle costs.
+        Select who played each session, and the site will auto-calculate each player’s share
+        and monthly total.
       </p>
       <div class="hero-meta">
         <div class="pill">📍 Ubi Badminton Hall (Above Giant)</div>
@@ -56,26 +327,27 @@
       </div>
       <p><strong>How it works</strong></p>
       <p>
-        1️⃣ Add players. 2️⃣ After each session, enter the costs and tick who played.
-        3️⃣ Check monthly totals per player below.
+        1️⃣ Add your players once. 2️⃣ After each session, enter the costs and tick who played.
+        3️⃣ Check monthly totals per player at the bottom.
       </p>
     </div>
   </section>
 
+  <!-- PLAYERS -->
   <section id="players">
     <div class="card two-col">
       <div>
         <h2>Players</h2>
         <p class="muted">
-          Add all regular players here once. You can remove later; old sessions keep their history.
+          Add all regular players here once. You can remove and re-order anytime.
         </p>
-        <div class="mt-small">
+        <div style="margin-top:0.6rem;">
           <label for="newPlayer">Add player name</label>
-          <div class="inline-input">
+          <div style="display:flex; gap:0.5rem; margin-bottom:0.4rem;">
             <input type="text" id="newPlayer" placeholder="e.g. Mani" />
             <button class="btn btn-primary" type="button" onclick="addPlayer()">Add</button>
           </div>
-          <p id="playerError" class="muted error-text">
+          <p id="playerError" class="muted" style="color:#b91c1c; display:none;">
             Please enter a unique player name.
           </p>
         </div>
@@ -83,18 +355,20 @@
       <div>
         <h2>Current player list</h2>
         <div id="playerList" class="chips"></div>
-        <p class="muted mt-small">
-          Click ❌ to remove a player from new sessions.
+        <p class="muted" style="margin-top:0.6rem;">
+          Click ❌ to remove a player. (Existing past sessions will keep that name in history,
+          but they won't show in new sessions.)
         </p>
       </div>
     </div>
   </section>
 
+  <!-- SESSION INPUT + LIVE RESULT -->
   <section id="session">
     <div class="flex-row">
       <div class="card">
         <h2>New Session</h2>
-        <p class="muted">Enter session costs and who played, then click “Save session”.</p>
+        <p class="muted">Fill in the costs and select who played. Then click “Save session”.</p>
         <div class="form-grid">
           <div>
             <label for="sessionDate">Date</label>
@@ -114,51 +388,58 @@
           </div>
         </div>
 
-        <div class="mt-small">
+        <div style="margin-top:0.8rem;">
           <label>Players who played this session</label>
-          <div id="playerChecklist" class="player-checklist"></div>
+          <div id="playerChecklist" class="player-checklist">
+            <!-- checkboxes injected by JS -->
+          </div>
         </div>
 
-        <div class="button-row mt-small">
+        <div style="margin-top:0.9rem; display:flex; gap:0.6rem; flex-wrap:wrap;">
           <button class="btn btn-primary" type="button" onclick="saveSession()">Save session</button>
           <button class="btn btn-ghost" type="button" onclick="clearSessionForm()">Clear</button>
         </div>
 
-        <p id="sessionError" class="muted error-text">
-          Please fill all fields and select at least one player.
+        <p id="sessionError" class="muted" style="color:#b91c1c; display:none; margin-top:0.5rem;">
+          Please fill all costs and select at least one player.
         </p>
       </div>
 
       <div class="card">
         <h2>Session summary</h2>
         <p class="muted">
-          This updates when you save a session.
+          This updates when you click “Save session”.
         </p>
-        <div class="mt-small">
+        <div style="margin-top:0.7rem;">
           <p class="muted">Total session cost</p>
-          <p id="summaryTotal" class="summary-main">S$0.00</p>
+          <p id="summaryTotal" style="font-size:1.4rem; font-weight:700;">S$0.00</p>
         </div>
-        <div class="mt-small">
+        <div style="margin-top:0.7rem;">
           <p class="muted">Cost per player</p>
-          <p id="summaryPerPlayer" class="summary-main">S$0.00</p>
+          <p id="summaryPerPlayer" style="font-size:1.4rem; font-weight:700;">S$0.00</p>
         </div>
-        <div class="mt-small">
+        <div style="margin-top:0.8rem;">
           <p class="muted">Players counted</p>
           <p id="summaryPlayers">–</p>
         </div>
-        <p class="muted mt-small">
-          Tip: after saving, screenshot this card and share in the group so everyone
-          knows how much to pay.
-        </p>
+        <div style="margin-top:0.8rem;">
+          <p class="muted">Tip:</p>
+          <p class="muted">
+            After saving, you can take a screenshot of this card and share in the group so everyone
+            knows how much to pay.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- SESSION HISTORY -->
   <section id="history">
     <div class="card">
       <h2>Session history</h2>
       <p class="muted">
-        Sessions are stored in this browser (LocalStorage). Clearing browser data will reset them.
+        All sessions you save are stored in your browser (local to this device). Clearing browser
+        data will reset everything.
       </p>
       <div class="table-scroll">
         <table>
@@ -170,27 +451,30 @@
               <th>Total</th>
               <th>Players</th>
               <th>$/player</th>
-              <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="historyBody"></tbody>
+          <tbody id="historyBody">
+          </tbody>
         </table>
       </div>
     </div>
   </section>
 
+  <!-- MONTHLY TOTALS -->
   <section id="monthly">
     <div class="card">
-      <div class="header-row">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:0.7rem;">
         <div>
           <h2>Monthly totals per player</h2>
           <p class="muted">
-            Choose a month to see how much each player owes.
+            Choose a month to see how much each player owes based on sessions saved above.
           </p>
         </div>
         <div>
           <label for="monthSelect">Month</label>
-          <select id="monthSelect" onchange="updateMonthlyTable()"></select>
+          <select id="monthSelect" onchange="updateMonthlyTable()">
+            <!-- options injected by JS -->
+          </select>
         </div>
       </div>
 
@@ -202,12 +486,13 @@
               <th>Total (S$)</th>
             </tr>
           </thead>
-          <tbody id="monthlyBody"></tbody>
+          <tbody id="monthlyBody">
+          </tbody>
         </table>
       </div>
-      <p class="muted mt-small">
-        Note: data is stored only on this device. For a shared system across devices,
-        use a backend like Google Sheets.
+      <p class="muted" style="margin-top:0.5rem;">
+        Note: data is stored only in this browser. To make this fully shared across devices and people,
+        you’d need a shared backend like Google Sheets.
       </p>
     </div>
   </section>
@@ -217,47 +502,215 @@
   </footer>
 </main>
 
-<!-- EDIT MODAL -->
-<div id="editModal" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>Edit Session</h3>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div>
-          <label for="editDate">Date</label>
-          <input type="date" id="editDate">
-        </div>
-        <div>
-          <label for="editCourtCost">Court booking cost (S$)</label>
-          <input type="number" id="editCourtCost" min="0" step="0.01">
-        </div>
-        <div>
-          <label for="editShuttleCost">Cost per shuttle (S$)</label>
-          <input type="number" id="editShuttleCost" min="0" step="0.01">
-        </div>
-        <div>
-          <label for="editShuttlesUsed">Shuttles used</label>
-          <input type="number" id="editShuttlesUsed" min="0" step="1">
-        </div>
-      </div>
-      <div class="mt-small">
-        <label>Players who played this session</label>
-        <div id="editPlayerChecklist" class="player-checklist"></div>
-      </div>
-      <p id="editError" class="muted error-text">
-        Please fill all fields and select at least one player.
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" type="button" onclick="closeEditModal()">Cancel</button>
-      <button class="btn btn-primary" type="button" onclick="saveEditChanges()">Save changes</button>
-    </div>
-  </div>
-</div>
+<script>
+  // --- Data storage helpers ---
+  let players = [];
+  let sessions = [];
 
-<script src="script.js"></script>
+  function loadData() {
+    const p = localStorage.getItem("ubiPlayers");
+    const s = localStorage.getItem("ubiSessions");
+    players = p ? JSON.parse(p) : [];
+    sessions = s ? JSON.parse(s) : [];
+    if (players.length === 0) {
+      players = ["Player 1", "Player 2"]; // starter example
+    }
+  }
+
+  function saveData() {
+    localStorage.setItem("ubiPlayers", JSON.stringify(players));
+    localStorage.setItem("ubiSessions", JSON.stringify(sessions));
+  }
+
+  // --- UI Renders ---
+  function renderPlayers() {
+    const list = document.getElementById("playerList");
+    list.innerHTML = "";
+    players.forEach((name, idx) => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.innerHTML = `<span>${name}</span><span class="remove" onclick="removePlayer(${idx})">❌</span>`;
+      list.appendChild(chip);
+    });
+
+    const checklist = document.getElementById("playerChecklist");
+    checklist.innerHTML = "";
+    players.forEach((name, idx) => {
+      const row = document.createElement("div");
+      row.innerHTML = `
+        <input type="checkbox" id="pc_${idx}" value="${name}">
+        <label for="pc_${idx}" style="font-weight:400;">${name}</label>
+      `;
+      checklist.appendChild(row);
+    });
+  }
+
+  function renderHistory() {
+    const body = document.getElementById("historyBody");
+    body.innerHTML = "";
+    sessions.forEach((s) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${s.date}</td>
+        <td>S$${s.courtCost.toFixed(2)}</td>
+        <td>${s.shuttlesUsed} × S$${s.shuttleCost.toFixed(2)}</td>
+        <td>S$${s.total.toFixed(2)}</td>
+        <td>${s.players.join(", ")}</td>
+        <td>S$${s.perPlayer.toFixed(2)}</td>
+      `;
+      body.appendChild(tr);
+    });
+  }
+
+  function renderMonthOptions() {
+    const select = document.getElementById("monthSelect");
+    const monthsSet = new Set();
+    sessions.forEach((s) => monthsSet.add(s.monthKey));
+    const months = Array.from(monthsSet).sort();
+
+    select.innerHTML = "";
+    if (months.length === 0) {
+      const opt = document.createElement("option");
+      opt.value = "";
+      opt.textContent = "No sessions yet";
+      select.appendChild(opt);
+    } else {
+      months.forEach((m) => {
+        const opt = document.createElement("option");
+        opt.value = m;
+        opt.textContent = m; // YYYY-MM
+        select.appendChild(opt);
+      });
+    }
+  }
+
+  function updateMonthlyTable() {
+    const body = document.getElementById("monthlyBody");
+    body.innerHTML = "";
+    const select = document.getElementById("monthSelect");
+    const monthKey = select.value;
+    if (!monthKey) return;
+
+    const totals = {};
+    sessions
+      .filter((s) => s.monthKey === monthKey)
+      .forEach((s) => {
+        s.players.forEach((p) => {
+          totals[p] = (totals[p] || 0) + s.perPlayer;
+        });
+      });
+
+    const playerNames = Object.keys(totals).sort();
+    if (playerNames.length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="2">No data for this month.</td>`;
+      body.appendChild(tr);
+      return;
+    }
+
+    playerNames.forEach((name) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${name}</td><td>S$${totals[name].toFixed(2)}</td>`;
+      body.appendChild(tr);
+    });
+  }
+
+  // --- Player management ---
+  function addPlayer() {
+    const input = document.getElementById("newPlayer");
+    const name = input.value.trim();
+    const err = document.getElementById("playerError");
+    err.style.display = "none";
+    if (!name || players.map((p) => p.toLowerCase()).includes(name.toLowerCase())) {
+      err.style.display = "block";
+      return;
+    }
+    players.push(name);
+    input.value = "";
+    saveData();
+    renderPlayers();
+  }
+
+  function removePlayer(idx) {
+    if (!confirm("Remove this player from new sessions?")) return;
+    players.splice(idx, 1);
+    saveData();
+    renderPlayers();
+  }
+
+  // --- Session logic ---
+  function saveSession() {
+    const dateEl = document.getElementById("sessionDate");
+    const courtCostEl = document.getElementById("courtCost");
+    const shuttleCostEl = document.getElementById("shuttleCost");
+    const shuttlesUsedEl = document.getElementById("shuttlesUsed");
+    const err = document.getElementById("sessionError");
+    err.style.display = "none";
+
+    const date = dateEl.value;
+    const courtCost = parseFloat(courtCostEl.value);
+    const shuttleCost = parseFloat(shuttleCostEl.value);
+    const shuttlesUsed = parseFloat(shuttlesUsedEl.value);
+
+    const selectedPlayers = [];
+    players.forEach((name, idx) => {
+      const cb = document.getElementById("pc_" + idx);
+      if (cb && cb.checked) selectedPlayers.push(name);
+    });
+
+    if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
+      err.style.display = "block";
+      return;
+    }
+
+    const total = courtCost + shuttleCost * shuttlesUsed;
+    const perPlayer = total / selectedPlayers.length;
+    const monthKey = date.slice(0, 7); // YYYY-MM from YYYY-MM-DD
+
+    const session = {
+      date,
+      monthKey,
+      courtCost,
+      shuttleCost,
+      shuttlesUsed,
+      total,
+      perPlayer,
+      players: selectedPlayers
+    };
+    sessions.push(session);
+    saveData();
+
+    // Update summary card
+    document.getElementById("summaryTotal").textContent = "S$" + total.toFixed(2);
+    document.getElementById("summaryPerPlayer").textContent = "S$" + perPlayer.toFixed(2);
+    document.getElementById("summaryPlayers").textContent = selectedPlayers.length + " player(s)";
+
+    renderHistory();
+    renderMonthOptions();
+    updateMonthlyTable();
+  }
+
+  function clearSessionForm() {
+    ["sessionDate", "courtCost", "shuttleCost", "shuttlesUsed"].forEach((id) => {
+      document.getElementById(id).value = "";
+    });
+    players.forEach((_, idx) => {
+      const cb = document.getElementById("pc_" + idx);
+      if (cb) cb.checked = false;
+    });
+    document.getElementById("sessionError").style.display = "none";
+    document.getElementById("summaryTotal").textContent = "S$0.00";
+    document.getElementById("summaryPerPlayer").textContent = "S$0.00";
+    document.getElementById("summaryPlayers").textContent = "–";
+  }
+
+  // --- Init ---
+  document.getElementById("year").textContent = new Date().getFullYear();
+  loadData();
+  renderPlayers();
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
+</script>
 </body>
 </html>
