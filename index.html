@@ -436,12 +436,6 @@ body.admin .admin-badge {
                 onclick="document.getElementById('players').scrollIntoView({behavior:'smooth'})">
           Manage Players
         </button>
-
-        <button class="btn btn-primary"
-        onclick="window.open('https://www.appsheet.com/start/9b45e187-2ed7-402d-8a7c-c94a8510b581', '_blank')">
-  Open Live App (AppSheet)
-</button>
-
       </div>
     </div>
 
@@ -654,19 +648,12 @@ body.admin .admin-badge {
 </div>
 
 <script>
-// =======================
-//  UBI SMASHERS FRONTEND
-//  Google Sheet = source of truth
-// =======================
-
-const API_URL = "AKfycbw3_qphV0YPk0D6wed3yKz5irbxVKPMMLHrpXFEYFjrA6u9Nahs7E6eJrTalXraz4I4RA";
-
 let players = [];
 let sessions = [];
 let currentEditId = null;
 
 let isAdmin = false;
-const ADMIN_PIN = "2495"; // change this to your own PIN
+const ADMIN_PIN = "2495"; // <-- CHANGE THIS to your own secret PIN
 
 function setAdminMode(on) {
   isAdmin = on;
@@ -692,7 +679,6 @@ function loginAsAdmin() {
   if (pin === ADMIN_PIN) {
     setAdminMode(true);
     document.getElementById("adminPin").value = "";
-    renderHistory(); // so buttons appear
   } else {
     alert("Wrong PIN");
   }
@@ -702,32 +688,19 @@ function makeId() {
   return "s_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
 }
 
-// Load players only from localStorage (optional)
-function loadPlayers() {
+function loadData() {
   const p = localStorage.getItem("ubiPlayers");
-  players = p ? JSON.parse(p) : ["Player 1", "Player 2"];
+  const s = localStorage.getItem("ubiSessions");
+  players = p ? JSON.parse(p) : [];
+  sessions = s ? JSON.parse(s) : [];
+  if (players.length === 0) players = ["Player 1", "Player 2"];
+  sessions.forEach(sess => { if (!sess.id) sess.id = makeId(); });
 }
 
-function savePlayers() {
+function saveData() {
   localStorage.setItem("ubiPlayers", JSON.stringify(players));
+  localStorage.setItem("ubiSessions", JSON.stringify(sessions));
 }
-
-// Fetch sessions from Google Sheet (backend)
-function fetchSessionsFromServer() {
-  fetch(API_URL)
-    .then(r => r.json())
-    .then(data => {
-      sessions = Array.isArray(data) ? data : [];
-      renderHistory();
-      renderMonthOptions();
-      updateMonthlyTable();
-    })
-    .catch(err => {
-      console.error("Error fetching sessions from server:", err);
-    });
-}
-
-// ---------- RENDERING ----------
 
 function renderPlayers() {
   const list = document.getElementById("playerList");
@@ -767,11 +740,11 @@ function renderHistory() {
 
     tr.innerHTML = `
       <td>${s.date}</td>
-      <td>S$${Number(s.courtCost || 0).toFixed(2)}</td>
-      <td>${s.shuttlesUsed} × S$${Number(s.shuttleCost || 0).toFixed(2)}</td>
-      <td>S$${Number(s.total || 0).toFixed(2)}</td>
-      <td>${(s.players || []).join(", ")}</td>
-      <td>S$${Number(s.perPlayer || 0).toFixed(2)}</td>
+      <td>S$${s.courtCost.toFixed(2)}</td>
+      <td>${s.shuttlesUsed} × S$${s.shuttleCost.toFixed(2)}</td>
+      <td>S$${s.total.toFixed(2)}</td>
+      <td>${s.players.join(", ")}</td>
+      <td>S$${s.perPlayer.toFixed(2)}</td>
       <td>${actions}</td>
     `;
     body.appendChild(tr);
@@ -781,13 +754,7 @@ function renderHistory() {
 function renderMonthOptions() {
   const select = document.getElementById("monthSelect");
   const monthsSet = new Set();
-  sessions.forEach(s => {
-    if (s.date) {
-      const mk = String(s.date).slice(0, 7);
-      monthsSet.add(mk);
-      s.monthKey = mk; // ensure monthKey is set
-    }
-  });
+  sessions.forEach(s => monthsSet.add(s.monthKey));
   const months = Array.from(monthsSet).filter(Boolean).sort();
   select.innerHTML = "";
   if (months.length === 0) {
@@ -810,16 +777,14 @@ function updateMonthlyTable() {
   body.innerHTML = "";
   const monthKey = document.getElementById("monthSelect").value;
   if (!monthKey) return;
-
   const totals = {};
   sessions
     .filter(s => s.monthKey === monthKey)
     .forEach(s => {
-      (s.players || []).forEach(p => {
-        totals[p] = (totals[p] || 0) + Number(s.perPlayer || 0);
+      s.players.forEach(p => {
+        totals[p] = (totals[p] || 0) + s.perPlayer;
       });
     });
-
   const names = Object.keys(totals).sort();
   if (names.length === 0) {
     body.innerHTML = `<tr><td colspan="2">No data for this month.</td></tr>`;
@@ -831,8 +796,6 @@ function updateMonthlyTable() {
     body.appendChild(tr);
   });
 }
-
-// ---------- PLAYER ACTIONS ----------
 
 function addPlayer() {
   if (!requireAdmin()) return;
@@ -846,7 +809,7 @@ function addPlayer() {
   }
   players.push(name);
   input.value = "";
-  savePlayers();
+  saveData();
   renderPlayers();
 }
 
@@ -854,15 +817,12 @@ function removePlayer(idx) {
   if (!requireAdmin()) return;
   if (!confirm("Remove this player from new sessions?")) return;
   players.splice(idx, 1);
-  savePlayers();
+  saveData();
   renderPlayers();
 }
 
-// ---------- SESSION CRUD (FULL SYNC) ----------
-
 function saveSession() {
   if (!requireAdmin()) return;
-
   const date = document.getElementById("sessionDate").value;
   const courtCost = parseFloat(document.getElementById("courtCost").value);
   const shuttleCost = parseFloat(document.getElementById("shuttleCost").value);
@@ -896,26 +856,16 @@ function saveSession() {
     players: selectedPlayers
   };
 
-  // Send to backend, then refresh from server
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "create", session })
-  })
-    .then(r => r.json())
-    .then(res => {
-      // Optionally use res.session, but easiest is to reload from server:
-      fetchSessionsFromServer();
-    })
-    .catch(err2 => {
-      console.error("Error saving session:", err2);
-      alert("Failed to save session to server.");
-    });
+  sessions.push(session);
+  saveData();
 
-  // Update summary UI immediately
   document.getElementById("summaryTotal").textContent = "S$" + total.toFixed(2);
   document.getElementById("summaryPerPlayer").textContent = "S$" + perPlayer.toFixed(2);
   document.getElementById("summaryPlayers").textContent = selectedPlayers.length + " player(s)";
+
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
 }
 
 function clearSessionForm() {
@@ -936,23 +886,23 @@ function clearSessionForm() {
 function openEditModal(id) {
   if (!requireAdmin()) return;
   currentEditId = id;
-  const session = sessions.find(s => String(s.id) === String(id));
+  const session = sessions.find(s => s.id === id);
   if (!session) return;
 
-  document.getElementById("editDate").value = session.date || "";
+  document.getElementById("editDate").value = session.date;
   document.getElementById("editCourtCost").value = session.courtCost;
   document.getElementById("editShuttleCost").value = session.shuttleCost;
   document.getElementById("editShuttlesUsed").value = session.shuttlesUsed;
 
   const container = document.getElementById("editPlayerChecklist");
   container.innerHTML = "";
-  const unionPlayers = Array.from(new Set([...players, ...(session.players || [])]));
-  unionPlayers.forEach((name, idx2) => {
-    const checked = (session.players || []).includes(name);
+  const unionPlayers = Array.from(new Set([...players, ...session.players]));
+  unionPlayers.forEach((name, idx) => {
+    const checked = session.players.includes(name);
     const row = document.createElement("div");
     row.innerHTML = `
-      <input type="checkbox" id="epc_${idx2}" value="${name}" ${checked ? "checked" : ""}>
-      <label for="epc_${idx2}" style="font-weight:400;">${name}</label>
+      <input type="checkbox" id="epc_${idx}" value="${name}" ${checked ? "checked" : ""}>
+      <label for="epc_${idx}" style="font-weight:400;">${name}</label>
     `;
     container.appendChild(row);
   });
@@ -969,8 +919,7 @@ function closeEditModal() {
 function saveEditChanges() {
   if (!requireAdmin()) return;
   if (!currentEditId) return;
-
-  const session = sessions.find(s => String(s.id) === String(currentEditId));
+  const session = sessions.find(s => s.id === currentEditId);
   if (!session) return;
 
   const err = document.getElementById("editError");
@@ -993,7 +942,6 @@ function saveEditChanges() {
   const total = courtCost + shuttleCost * shuttlesUsed;
   const perPlayer = total / selectedPlayers.length;
 
-  // Update local object
   session.date = date;
   session.monthKey = date.slice(0, 7);
   session.courtCost = courtCost;
@@ -1003,50 +951,31 @@ function saveEditChanges() {
   session.perPlayer = perPlayer;
   session.players = selectedPlayers;
 
-  // Send to backend
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "update", session })
-  })
-    .then(r => r.json())
-    .then(res => {
-      fetchSessionsFromServer();
-      closeEditModal();
-    })
-    .catch(err2 => {
-      console.error("Error updating session:", err2);
-      alert("Failed to update session on server.");
-    });
+  saveData();
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
+  closeEditModal();
 }
 
 function deleteSession(id) {
   if (!requireAdmin()) return;
   if (!confirm("Delete this session?")) return;
-
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "delete", id })
-  })
-    .then(r => r.json())
-    .then(res => {
-      fetchSessionsFromServer();
-    })
-    .catch(err2 => {
-      console.error("Error deleting session:", err2);
-      alert("Failed to delete session on server.");
-    });
+  sessions = sessions.filter(s => s.id !== id);
+  saveData();
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
 }
-
-// ---------- INIT ----------
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("year").textContent = new Date().getFullYear();
-  loadPlayers();
-  setAdminMode(false);      // start view-only
+  loadData();
+  setAdminMode(false); // start in view-only mode
   renderPlayers();
-  fetchSessionsFromServer(); // load sessions from Google Sheet
+  renderHistory();
+  renderMonthOptions();
+  updateMonthlyTable();
 });
 </script>
 
