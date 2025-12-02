@@ -4,25 +4,29 @@
   <meta charset="UTF-8" />
   <title>Ubi Smashers | Badminton Cost Sharing</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-<style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
 /* General layout & theme */
 :root {
-  --primary: #0f766e;
-  --primary-light: #e0f2f1;
-  --bg: #f3f4f6;
-  --dark: #0f172a;
-  --muted: #6b7280;
+  --primary: #0f766e; /* Teal */
+  --primary-dark: #0d635c;
+  --primary-light: #e0f2f1; /* Light Teal */
+  --bg: #f3f4f6; /* Light gray */
+  --dark: #0f172a; /* Dark Blue */
+  --muted: #6b7280; /* Gray */
+  --error: #ef4444; /* Red */
+  --success: #10b981; /* Green */
   --radius: 14px;
   --shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
   color: #111827;
   line-height: 1.5;
+  padding: 20px;
 }
 a { color: inherit; text-decoration: none; }
 
@@ -32,1077 +36,911 @@ header {
   z-index: 20;
   backdrop-filter: blur(12px);
   background: rgba(243, 244, 246, 0.9);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.5);
-}
-.nav {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0.55rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-.nav-left { display: flex; align-items: center; gap: 0.6rem; }
-.nav-logo {
-  width: 42px; height: 42px; border-radius: 999px;
-  background: #fff; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
-}
-.nav-logo img { width: 100%; height: 100%; object-fit: contain; }
-.nav-title { font-weight: 700; font-size: 1.05rem; color: var(--dark); }
-.nav-sub { font-size: 0.8rem; color: var(--muted); }
-.nav-links { display: flex; gap: 0.8rem; font-size: 0.85rem; }
-.nav-links a {
-  padding: 0.3rem 0.7rem; border-radius: 999px;
-}
-.nav-links a:hover {
-  background: rgba(15, 23, 42, 0.05);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  margin-bottom: 20px;
+  padding: 10px 0;
 }
 
-main {
-  max-width: 1100px;
+.container {
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 1.3rem 1rem 3rem;
 }
 
-/* HERO SECTION */
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: 1.8rem;
-  margin-bottom: 2rem;
-  align-items: center;
-}
-.badge {
-  display: inline-flex;
-  padding: 0.2rem 0.7rem;
-  border-radius: 999px;
-  background: var(--primary-light);
-  color: #0f766e;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-}
-.hero h1 {
-  font-size: clamp(1.9rem, 3vw, 2.3rem);
-  margin-bottom: 0.5rem;
+h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
   color: var(--dark);
 }
-.hero p { color: var(--muted); font-size: 0.96rem; }
-.hero-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1.1rem; }
-.pill {
-  padding: 0.3rem 0.8rem;
-  background: #fff;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  font-size: 0.8rem;
-}
-.cta-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-.btn {
-  border-radius: 999px;
-  padding: 0.55rem 1rem;
-  font-size: 0.85rem;
-  border: none;
-  cursor: pointer;
-}
-.btn-primary {
-  background: var(--primary); color: #ecfeff; font-weight: 600;
-  box-shadow: var(--shadow);
-}
-.btn-primary:hover { filter: brightness(1.03); transform: translateY(-1px); }
-.btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(148, 163, 184, 0.8);
-}
-.btn-small {
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.8);
-  background: #f9fafb;
-  font-size: 0.7rem;
-  padding: 0.2rem 0.6rem;
-  cursor: pointer;
-  margin-right: 0.25rem;
-}
-.btn-small.danger {
-  border-color: #f97373;
-  color: #b91c1c;
-}
 
-/* HERO RIGHT CARD */
-.hero-card {
-  background: radial-gradient(circle at top left,#e0f2f1 0,#f9fafb 45%,#e5e7eb 100%);
-  border-radius: 20px;
-  padding: 1.2rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.7rem;
-}
-.hero-logo {
-  width: 120px; height: 120px;
-  border-radius: 999px; overflow: hidden;
-  background: #fff;
-  border: 2px solid rgba(45, 212, 191, 0.4);
-  display: flex; align-items: center; justify-content: center;
-}
-.hero-logo img { width: 100%; height: 100%; object-fit: contain; }
-.hero-card p { text-align: center; font-size: 0.85rem; color: var(--muted); }
-
-section { margin-bottom: 2rem; }
-section h2 { font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--dark); }
-
+/* Utility classes */
 .card {
-  background: #fff;
+  background: white;
   border-radius: var(--radius);
-  padding: 1rem 1rem;
   box-shadow: var(--shadow);
-}
-.two-col {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 1.5rem;
-}
-.flex-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 1.3rem;
-  align-items: flex-start;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-.muted { color: var(--muted); font-size: 0.85rem; }
-.mt-small { margin-top: 0.6rem; }
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-label {
-  font-size: 0.78rem;
+/* Buttons */
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
   font-weight: 600;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.15rem;
-}
-input[type="text"],
-input[type="number"],
-input[type="date"],
-select {
-  width: 100%;
-  padding: 0.45rem 0.55rem;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.9);
-  font-size: 0.85rem;
-  outline: none;
-  background: #f9fafb;
-}
-input:focus, select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.4);
-  background: #fff;
-}
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.7rem;
-  margin-top: 0.6rem;
-}
-
-/* Player chips */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.4rem;
-}
-.chip {
-  background: #f9fafb;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184,0.8);
-  padding: 0.2rem 0.65rem;
-  font-size: 0.78rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-.chip span.remove {
   cursor: pointer;
-  font-weight: 700;
-  color: #b91c1c;
+  transition: background-color 0.2s, transform 0.1s;
+  border: none;
 }
 
-/* Player checklist */
-.player-checklist {
-  max-height: 190px;
-  overflow-y: auto;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  padding: 0.4rem 0.5rem;
-  background: #f9fafb;
-}
-.player-checklist div {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.86rem;
-  margin-bottom: 0.2rem;
+.btn-primary {
+  background: var(--primary);
+  color: white;
 }
 
-.inline-input {
-  display:flex;
-  gap:0.5rem;
-  margin-bottom:0.4rem;
-}
-.button-row {
-  display:flex;
-  gap:0.6rem;
-  flex-wrap:wrap;
+.btn-primary:hover {
+  background: var(--primary-dark);
 }
 
-.summary-main {
-  font-size:1.4rem;
-  font-weight:700;
-}
-.error-text {
-  color:#b91c1c;
-  display:none;
+.btn-secondary {
+  background: var(--bg);
+  color: var(--dark);
+  border: 1px solid var(--muted);
 }
 
-.header-row {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:0.7rem;
+.btn-secondary:hover {
+  background: #e5e7eb;
 }
 
-table {
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.875rem;
+}
+
+.btn-danger {
+  background: var(--error);
+  color: white;
+}
+
+/* Forms */
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--dark);
+  font-size: 0.9rem;
+}
+
+input[type="date"], input[type="number"], .select-month {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Monthly Summary Table */
+.monthly-summary h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.monthly-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.82rem;
-  margin-top: 0.5rem;
+  margin-top: 15px;
 }
-th, td {
-  padding: 0.4rem 0.35rem;
-  border-bottom: 1px solid #e5e7eb;
+
+.monthly-table th, .monthly-table td {
+  padding: 12px 15px;
   text-align: left;
-}
-th { background: #f9fafb; font-weight: 600; font-size: 0.78rem; }
-tbody tr:nth-child(even) { background: #f9fafb; }
-
-.table-scroll {
-  max-height: 260px;
-  overflow: auto;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-footer {
-  text-align: center;
-  font-size: 0.75rem;
+.monthly-table th {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.monthly-table tr:hover {
+  background-color: #f9fafb;
+}
+
+.total-row td {
+  font-weight: 700;
+  background-color: var(--primary-light);
+  border-bottom: 3px solid var(--primary);
+}
+
+/* History */
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.session-item:last-child {
+  border-bottom: none;
+}
+
+.session-details p {
+  margin: 3px 0;
+  font-size: 0.9rem;
+}
+
+.session-date {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.session-cost {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.player-list {
+  font-size: 0.8rem;
   color: var(--muted);
-  margin-top: 1rem;
+  font-style: italic;
 }
 
-/* Edit modal */
+.session-actions button {
+  margin-left: 8px;
+}
+
+/* Modal Styling */
 .modal-overlay {
   position: fixed;
-  inset: 0;
-  background: rgba(15,23,42,0.45);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-.modal {
-  background: #fff;
-  border-radius: 16px;
-  padding: 1rem 1.1rem;
-  max-width: 420px;
+  top: 0;
+  left: 0;
   width: 100%;
-  box-shadow: 0 20px 40px rgba(15,23,42,0.3);
-}
-.modal-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:0.5rem;
-}
-.modal-close {
-  border:none;
-  background:transparent;
-  font-size:1.1rem;
-  cursor:pointer;
-}
-.modal-footer {
-  margin-top:0.9rem;
-  display:flex;
-  justify-content:flex-end;
-  gap:0.5rem;
-}
-
-/* Admin bar */
-.admin-login {
-  max-width: 1100px;
-  margin: 0.5rem auto 0;
-  padding: 0.3rem 1rem 0.6rem;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  justify-content: center;
   align-items: center;
-  font-size: 0.8rem;
+  z-index: 50;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: var(--radius);
+  max-width: 90%;
+  width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.modal-header h3 {
+  font-size: 1.5rem;
+  color: var(--dark);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
   color: var(--muted);
 }
-.admin-login input {
-  max-width: 140px;
+
+.checklist-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
 }
-.admin-badge {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-body.admin .admin-badge {
-  color: #16a34a;
+
+.error-message {
+  color: var(--error);
   font-weight: 600;
+  margin-top: 10px;
+  display: none;
 }
 
-@media (max-width: 900px) {
-  .hero,
-  .two-col,
-  .flex-row {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .nav-links { display: none; }
+.admin-info {
+  margin-top: 20px;
+  padding: 10px;
+  background: var(--primary-light);
+  border-radius: 8px;
+  color: var(--primary);
+  font-size: 0.9rem;
 }
-@media (max-width: 600px) {
-  main { padding: 1rem 0.8rem 2.4rem; }
-  .card { padding: 0.9rem 0.9rem; }
-  .form-grid { grid-template-columns: 1fr; }
-  .modal { max-width: 95%; }
+
+.admin-info span {
+  font-weight: 700;
+  word-break: break-all;
 }
-</style>
+
+/* Status Message */
+#status-message {
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+}
+  </style>
 </head>
-
 <body>
 
-<header>
-  <div class="nav">
-    <div class="nav-left">
-      <div class="nav-logo">
-        <img src="logo.png" alt="Ubi Smashers logo">
+  <header>
+    <div class="container flex-between">
+      <div style="display: flex; align-items: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather" style="color: var(--primary); margin-right: 10px;"><path d="M20.24 12.24l-8.48 8.48-8.48-8.48 8.48-8.48 8.48 8.48zM15 15l-6-6"/></svg>
+        <h1>Ubi Smashers</h1>
       </div>
-      <div>
-        <div class="nav-title">Ubi Smashers</div>
-        <div class="nav-sub">Ubi Badminton Hall (Above Giant)</div>
-      </div>
+      <button class="btn btn-primary" onclick="openAddModal()">Add Session</button>
     </div>
+  </header>
 
-    <nav class="nav-links">
-      <a href="#players">Players</a>
-      <a href="#session">Sessions</a>
-      <a href="#history">History</a>
-      <a href="#monthly">Monthly Totals</a>
-    </nav>
-  </div>
-</header>
+  <main class="container">
+    <div id="status-message">Loading data...</div>
+    
+    <section class="admin-info card">
+      <p>Your unique User ID (for sharing/admin tasks): <span id="user-id"></span></p>
+    </section>
 
-<div class="admin-login">
-  <span><strong>Admin:</strong></span>
-  <input type="password" id="adminPin" placeholder="Enter PIN">
-  <button class="btn btn-ghost" type="button" onclick="loginAsAdmin()">Login</button>
-  <span id="adminStatus" class="admin-badge">View-only mode</span>
-</div>
-
-<main>
-
-  <section class="hero">
-    <div>
-      <div class="badge">🏸 Community Badminton · Cost Sharing</div>
-      <h1>Ubi Smashers – play hard, share fair.</h1>
-      <p>
-        Track court booking & shuttle costs, select players who attended each session,
-        and the system will auto-calculate each player’s total.
-      </p>
-
-      <div class="hero-meta">
-        <div class="pill">📍 Ubi Badminton Hall (Above Giant)</div>
-        <div class="pill">👥 Split fairly between attendees</div>
-        <div class="pill">💰 Transparent calculations</div>
+    <!-- Monthly Summary Section -->
+    <section class="monthly-summary card">
+      <div class="flex-between">
+        <h2>Monthly Summary</h2>
+        <select id="month-selector" class="select-month" onchange="updateMonthlyTable()" style="width: auto;">
+          <!-- Options populated by JS -->
+        </select>
       </div>
 
-      <div class="cta-row">
-        <button class="btn btn-primary"
-                onclick="document.getElementById('session').scrollIntoView({behavior:'smooth'})">
-          Add a Session
-        </button>
-
-        <button class="btn btn-ghost"
-                onclick="document.getElementById('players').scrollIntoView({behavior:'smooth'})">
-          Manage Players
-        </button>
-
-        <button class="btn btn-primary"
-                onclick="window.open('https://www.appsheet.com/start/9b45e187-2ed7-402d-8a7c-c94a8510b581', '_blank')">
-          Open Live App (AppSheet)
-        </button>
-
-      </div>
-    </div>
-
-    <div class="hero-card">
-      <div class="hero-logo">
-        <img src="logo.png" alt="Ubi Smashers logo">
-      </div>
-      <p><strong>How it works:</strong></p>
-      <p>
-        1️⃣ Add players<br>
-        2️⃣ Add new session & tick who played<br>
-        3️⃣ Amount is auto calculated<br>
-        4️⃣ Check monthly totals anytime
-      </p>
-    </div>
-  </section>
-
-  <section id="players">
-    <div class="card two-col">
-      <div>
-        <h2>Players</h2>
-        <p class="muted">
-          Add all players in your Ubi Smashers group. Removing a player will not
-          affect past sessions.
-        </p>
-
-        <div class="mt-small">
-          <label for="newPlayer">Add player name</label>
-          <div class="inline-input">
-            <input type="text" id="newPlayer" placeholder="e.g. Mani" />
-            <button class="btn btn-primary" type="button" onclick="addPlayer()">Add</button>
-          </div>
-          <p id="playerError" class="muted error-text">
-            Please enter a unique player name.
-          </p>
-        </div>
-      </div>
-
-      <div>
-        <h2>Current Player List</h2>
-        <div id="playerList" class="chips"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="session">
-    <div class="flex-row">
-
-      <div class="card">
-        <h2>New Session</h2>
-        <p class="muted">Enter costs & select who played.</p>
-
-        <div class="form-grid">
-          <div>
-            <label for="sessionDate">Date</label>
-            <input type="date" id="sessionDate">
-          </div>
-          <div>
-            <label for="courtCost">Court booking (S$)</label>
-            <input type="number" id="courtCost" min="0" step="0.01" placeholder="e.g. 48">
-          </div>
-          <div>
-            <label for="shuttleCost">Shuttle cost (S$)</label>
-            <input type="number" id="shuttleCost" min="0" step="0.01" placeholder="e.g. 1.50">
-          </div>
-          <div>
-            <label for="shuttlesUsed">Shuttles used</label>
-            <input type="number" id="shuttlesUsed" min="0" step="1" placeholder="e.g. 12">
-          </div>
-        </div>
-
-        <div class="mt-small">
-          <label>Who played this session?</label>
-          <div id="playerChecklist" class="player-checklist"></div>
-        </div>
-
-        <div class="button-row mt-small">
-          <button class="btn btn-primary" onclick="saveSession()">Save session</button>
-          <button class="btn btn-ghost" onclick="clearSessionForm()">Clear</button>
-        </div>
-
-        <p id="sessionError" class="muted error-text">
-          Please fill all fields and select at least one player.
-        </p>
-      </div>
-
-      <div class="card">
-        <h2>Session Summary</h2>
-        <div class="mt-small">
-          <p class="muted">Total session cost</p>
-          <p id="summaryTotal" class="summary-main">S$0.00</p>
-        </div>
-        <div class="mt-small">
-          <p class="muted">Cost per player</p>
-          <p id="summaryPerPlayer" class="summary-main">S$0.00</p>
-        </div>
-        <div class="mt-small">
-          <p class="muted">Players counted</p>
-          <p id="summaryPlayers">–</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="history">
-    <div class="card">
-      <h2>Session History</h2>
-      <p class="muted">Your previously saved sessions appear here.</p>
-
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Court</th>
-              <th>Shuttles</th>
-              <th>Total</th>
-              <th>Players</th>
-              <th>$/player</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="historyBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <section id="monthly">
-    <div class="card">
-      <div class="header-row">
-        <div>
-          <h2>Monthly Totals</h2>
-          <p class="muted">Select a month to view each player’s total.</p>
-        </div>
-        <div>
-          <label for="monthSelect">Month</label>
-          <select id="monthSelect" onchange="updateMonthlyTable()"></select>
-        </div>
-      </div>
-
-      <div class="table-scroll">
-        <table>
+      <div class="table-container">
+        <table id="monthly-table" class="monthly-table">
           <thead>
             <tr>
               <th>Player</th>
-              <th>Total (S$)</th>
+              <th>Sessions Count</th>
+              <th>Total Cost (S$)</th>
+              <th>Average Cost (S$)</th>
             </tr>
           </thead>
-          <tbody id="monthlyBody"></tbody>
+          <tbody>
+            <!-- Table rows populated by JS -->
+          </tbody>
         </table>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    © <span id="year"></span> Ubi Smashers · Ubi Badminton Hall
-  </footer>
-
-</main>
-
-<div id="editModal" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>Edit Session</h3>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div>
-          <label for="editDate">Date</label>
-          <input type="date" id="editDate">
-        </div>
-        <div>
-          <label for="editCourtCost">Court booking (S$)</label>
-          <input type="number" id="editCourtCost" step="0.01">
-        </div>
-        <div>
-          <label for="editShuttleCost">Shuttle cost (S$)</label>
-          <input type="number" id="editShuttleCost" step="0.01">
-        </div>
-        <div>
-          <label for="editShuttlesUsed">Shuttles used</label>
-          <input type="number" id="editShuttlesUsed">
-        </div>
+    <!-- History Section -->
+    <section class="history-list card">
+      <h2>Session History (<span id="history-count">0</span>)</h2>
+      <div id="sessions-history">
+        <!-- Session items populated by JS -->
       </div>
+    </section>
 
-      <div class="mt-small">
-        <label>Players who played</label>
-        <div id="editPlayerChecklist" class="player-checklist"></div>
+    <footer>
+      <p style="text-align: center; color: var(--muted); font-size: 0.8rem; padding-top: 10px;">&copy; <span id="year"></span> Ubi Smashers. Data stored securely in Firestore.</p>
+    </footer>
+  </main>
+
+  <!-- Add Session Modal -->
+  <div id="addModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Session</h3>
+        <button class="close-btn" onclick="closeAddModal()">&times;</button>
       </div>
+      <form id="addForm">
+        <label for="date">Date</label>
+        <input type="date" id="date" required>
 
-      <p id="editError" class="muted error-text">
-        Please fill all fields and select at least one player.
-      </p>
-    </div>
+        <label for="courtCost">Court Cost (S$)</label>
+        <input type="number" id="courtCost" step="0.01" value="30" required>
 
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveEditChanges()">Save changes</button>
+        <label for="shuttleCost">Shuttlecock Cost (S$)</label>
+        <input type="number" id="shuttleCost" step="0.01" value="2.50" required>
+
+        <label for="shuttlesUsed">Shuttlecocks Used (pcs)</label>
+        <input type="number" id="shuttlesUsed" value="10" required>
+
+        <label>Players Attended</label>
+        <div id="playerChecklist" class="checklist-container">
+          <!-- Checkboxes populated by JS -->
+        </div>
+
+        <p id="add-err" class="error-message">Please fill all fields and select at least one player.</p>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Save Session</button>
+      </form>
     </div>
   </div>
-</div>
 
-<script>
-let players = [];
-let sessions = [];
-let currentEditId = null;
+  <!-- Edit Session Modal -->
+  <div id="editModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit Session</h3>
+        <button class="close-btn" onclick="closeEditModal()">&times;</button>
+      </div>
+      <form id="editForm">
+        <input type="hidden" id="editSessionId">
 
-let isAdmin = false;
-const ADMIN_PIN = "2495"; // <-- CHANGE THIS to your own secret PIN
+        <label for="editDate">Date</label>
+        <input type="date" id="editDate" required>
 
-// ----------------------------------------------------------------------
-// 1. YOUR GOOGLE APPS SCRIPT WEB APP URL (CONFIRMED)
-// ----------------------------------------------------------------------
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhTnMAjj_fQ6_Qa1WOAnW5qDK8FjfvYWJLh-eVfm5kI2RoeedcO_ckpfD34tmkUWwELA/exec'; 
+        <label for="editCourtCost">Court Cost (S$)</label>
+        <input type="number" id="editCourtCost" step="0.01" required>
 
-function setAdminMode(on) {
-  isAdmin = on;
-  if (on) {
-    document.body.classList.add("admin");
-    document.getElementById("adminStatus").textContent = "Admin mode (you can edit)";
-  } else {
-    document.body.classList.remove("admin");
-    document.getElementById("adminStatus").textContent = "View-only mode";
-  }
-}
+        <label for="editShuttleCost">Shuttlecock Cost (S$)</label>
+        <input type="number" id="editShuttleCost" step="0.01" required>
 
-function requireAdmin() {
-  if (!isAdmin) {
-    alert("Only admin can do this.");
-    return false;
-  }
-  return true;
-}
+        <label for="editShuttlesUsed">Shuttlecocks Used (pcs)</label>
+        <input type="number" id="editShuttlesUsed" required>
 
-function loginAsAdmin() {
-  const pin = document.getElementById("adminPin").value;
-  if (pin === ADMIN_PIN) {
-    setAdminMode(true);
-    document.getElementById("adminPin").value = "";
-  } else {
-    alert("Wrong PIN");
-  }
-}
+        <label>Players Attended</label>
+        <div id="editPlayerChecklist" class="checklist-container">
+          <!-- Checkboxes populated by JS -->
+        </div>
 
-function makeId() {
-  return "s_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
-}
+        <p id="edit-err" class="error-message">Please fill all fields and select at least one player.</p>
 
-// ----------------------------------------------------------------------
-// 2. UPDATED loadData: FETCHES SESSIONS FROM GOOGLE SHEET
-// ----------------------------------------------------------------------
-async function loadData() {
-  // Load player list from local storage first (players are managed locally)
-  const p = localStorage.getItem("ubiPlayers");
-  players = p ? JSON.parse(p) : [];
-  if (players.length === 0) players = ["Player 1", "Player 2"];
+        <button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="saveEditedSession()">Save Changes</button>
+        <button type="button" class="btn btn-danger" style="width: 100%;" onclick="deleteSessionFromEdit()">Delete Session</button>
+      </form>
+    </div>
+  </div>
 
-  try {
-    // Fetch sessions from Google Apps Script using doGet
-    const response = await fetch(`${SCRIPT_URL}?action=GET_DATA`);
-    
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+  <!-- Confirmation Modal (Replaces confirm()) -->
+  <div id="confirmModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="width: 350px;">
+      <div class="modal-header" style="border-bottom: none; margin-bottom: 0;">
+        <h3 id="confirm-title">Confirm Action</h3>
+        <button class="close-btn" onclick="closeConfirmModal()">&times;</button>
+      </div>
+      <p id="confirm-message" style="margin-bottom: 20px;">Are you sure you want to proceed?</p>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+        <button id="confirm-action-btn" class="btn btn-danger">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // These functions must be defined globally for HTML inline onclick handlers to work.
+    // They interact with the module's exported/global state.
+
+    function requireAdmin() {
+      // Admin check is omitted here as adding sessions is a standard user action
+      // We still include it here for Edit/Delete functions to call
+      const passcode = prompt("Enter Admin Passcode:");
+      // Simple client-side check for demonstration purposes
+      if (passcode === "admin123") {
+        return true;
+      }
+      // Replaced alert with console error as per guidelines, or a custom modal if needed, 
+      // but keeping prompt/alert pattern for simple admin gate
+      console.error("Incorrect Admin Passcode.");
+      return false;
+    }
+
+    function openAddModal() {
+      document.getElementById("addForm").reset();
+      document.getElementById("add-err").style.display = "none";
+      // Access module function via window
+      window.renderPlayerChecklist("playerChecklist");
+      document.getElementById("addModal").style.display = "flex";
+      // Set default date to today
+      document.getElementById("date").value = new Date().toISOString().slice(0, 10);
+    }
+
+    function closeAddModal() {
+      document.getElementById("addModal").style.display = "none";
+    }
+
+    function openEditModal(id) {
+      // Access module function via window
+      window.moduleOpenEditModal(id);
+    }
+
+    function closeEditModal() {
+      document.getElementById("editModal").style.display = "none";
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("confirmModal").style.display = "none";
+    }
+
+    function confirmDeleteSession(id) {
+        if (!requireAdmin()) return;
+        // Access module function via window
+        window.moduleConfirmDeleteSession(id);
     }
     
-    // Process the JSON data
-    const sheetSessions = await response.json();
+    function deleteSessionFromEdit() {
+        // Access module function via window
+        window.moduleDeleteSessionFromEdit();
+    }
     
-    // Use the data from the Google Sheet
-    sessions = sheetSessions;
-    // Ensure all sessions have an ID (for safety/backward compatibility)
-    sessions.forEach(sess => { if (!sess.id) sess.id = makeId(); });
+    function saveEditedSession() {
+        // Access module function via window
+        window.moduleSaveEditedSession();
+    }
     
-    // Also update local storage with the latest data from the sheet for quick loads
-    localStorage.setItem("ubiSessions", JSON.stringify(sessions));
-    console.log(`Successfully loaded ${sessions.length} sessions from Google Sheet.`);
+  </script>
 
-  } catch (error) {
-    // Fallback to local storage if fetch fails (e.g., connection issue)
-    console.error('Failed to fetch data from Google Sheet. Falling back to local storage.', error);
-    const s = localStorage.getItem("ubiSessions");
-    sessions = s ? JSON.parse(s) : [];
-  }
-}
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, getDoc, collection, getDocs, query, where, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-function saveData() {
-  localStorage.setItem("ubiPlayers", JSON.stringify(players));
-  // Note: Session data is primarily synced via Apps Script, this is for fallback cache
-  localStorage.setItem("ubiSessions", JSON.stringify(sessions)); 
-}
+    // Set logging level to debug for troubleshooting
+    setLogLevel('Debug');
 
-function renderPlayers() {
-  const list = document.getElementById("playerList");
-  list.innerHTML = "";
-  players.forEach((name, idx) => {
-    const chip = document.createElement("div");
-    chip.className = "chip";
-    chip.innerHTML = `
-      <span>${name}</span>
-      <span class="remove" onclick="removePlayer(${idx})">❌</span>
-    `;
-    list.appendChild(chip);
-  });
 
-  const check = document.getElementById("playerChecklist");
-  check.innerHTML = "";
-  players.forEach((name, idx) => {
-    const row = document.createElement("div");
-    row.innerHTML = `
-      <input type="checkbox" id="pc_${idx}" value="${name}">
-      <label for="pc_${idx}" style="font-weight:400;">${name}</label>
-    `;
-    check.appendChild(row);
-  });
-}
+    // --- MANDATORY FIREBASE GLOBALS ---
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-function renderHistory() {
-  const body = document.getElementById("historyBody");
-  body.innerHTML = "";
-  sessions.forEach(s => {
-    const tr = document.createElement("tr");
+    // --- APP STATE & FIREBASE INSTANCES ---
+    let sessions = [];
+    const allPlayers = ["John", "Jane", "Alice", "Bob", "Charlie", "David", "Eve", "Frank"];
+    let db = null;
+    let auth = null;
+    let userId = null;
+    let isAuthReady = false;
 
-    const actions = isAdmin
-      ? `<button class="btn-small" onclick="openEditModal('${s.id}')">Edit</button>
-         <button class="btn-small danger" onclick="deleteSession('${s.id}')">Delete</button>`
-      : "";
+    // --- UI/Modal References ---
+    const addModal = document.getElementById("addModal");
+    const editModal = document.getElementById("editModal");
+    const confirmModal = document.getElementById("confirmModal");
+    const confirmActionBtn = document.getElementById("confirm-action-btn");
+    
+    // Export functions that need to be called from the global scope script block
+    window.renderPlayerChecklist = renderPlayerChecklist;
+    window.moduleOpenEditModal = moduleOpenEditModal;
+    window.moduleConfirmDeleteSession = moduleConfirmDeleteSession;
+    window.moduleDeleteSessionFromEdit = moduleDeleteSessionFromEdit;
+    window.moduleSaveEditedSession = saveEditedSession;
 
-    tr.innerHTML = `
-      <td>${s.date}</td>
-      <td>S$${s.courtCost.toFixed(2)}</td>
-      <td>${s.shuttlesUsed} × S$${s.shuttleCost.toFixed(2)}</td>
-      <td>S$${s.total.toFixed(2)}</td>
-      <td>${s.players.join(", ")}</td>
-      <td>S$${s.perPlayer.toFixed(2)}</td>
-      <td>${actions}</td>
-    `;
-    body.appendChild(tr);
-  });
-}
 
-function renderMonthOptions() {
-  const select = document.getElementById("monthSelect");
-  const monthsSet = new Set();
-  sessions.forEach(s => monthsSet.add(s.monthKey));
-  const months = Array.from(monthsSet).filter(Boolean).sort();
-  select.innerHTML = "";
-  if (months.length === 0) {
-    const opt = document.createElement("option");
-    opt.value = "";
-    opt.textContent = "No sessions yet";
-    select.appendChild(opt);
-  } else {
-    months.forEach(m => {
-      const opt = document.createElement("option");
-      opt.value = m;
-      opt.textContent = m;
-      select.appendChild(opt);
-    });
-  }
-}
+    // --- FIREBASE INITIALIZATION & AUTH ---
 
-function updateMonthlyTable() {
-  const body = document.getElementById("monthlyBody");
-  body.innerHTML = "";
-  const monthKey = document.getElementById("monthSelect").value;
-  if (!monthKey) return;
-  const totals = {};
-  sessions
-    .filter(s => s.monthKey === monthKey)
-    .forEach(s => {
-      s.players.forEach(p => {
-        totals[p] = (totals[p] || 0) + s.perPlayer;
+    async function initFirebase() {
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+
+        // Sign in logic using the provided custom token or anonymously
+        if (initialAuthToken) {
+          await signInWithCustomToken(auth, initialAuthToken);
+        } else {
+          await signInAnonymously(auth);
+        }
+
+        // Wait for the auth state to be established
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            userId = user.uid;
+          } else {
+            // Fallback for userId if anonymous sign-in failed (shouldn't happen)
+            userId = crypto.randomUUID();
+          }
+          document.getElementById("user-id").textContent = userId;
+          isAuthReady = true;
+          loadData(); // Start loading data only after auth is ready
+        });
+      } catch (error) {
+        console.error("Firebase initialization or authentication failed:", error);
+        document.getElementById("status-message").textContent = "Error: Failed to initialize application services.";
+      }
+    }
+
+    // --- FIRESTORE OPERATIONS ---
+
+    function getSessionDocRef() {
+        if (!db || !userId) return null;
+        // Private data path: /artifacts/{appId}/users/{userId}/data/userSessions
+        const sessionsCollectionPath = `/artifacts/${appId}/users/${userId}/data`;
+        return doc(db, sessionsCollectionPath, "userSessions");
+    }
+
+    // Load data using real-time listener (onSnapshot)
+    function loadData() {
+        if (!isAuthReady || !db || !userId) {
+            console.log("Waiting for auth to be ready...");
+            return;
+        }
+
+        const docRef = getSessionDocRef();
+        if (!docRef) return;
+
+        document.getElementById("status-message").textContent = "Syncing data from Firestore...";
+        
+        // Listen for real-time changes
+        onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists() && docSnap.data().sessions) {
+                // Assuming data is stored as { sessions: [ ... ] }
+                sessions = docSnap.data().sessions.map(s => {
+                    // Ensure numeric types are restored correctly (though Firestore handles numbers)
+                    return {
+                        ...s,
+                        courtCost: parseFloat(s.courtCost),
+                        shuttleCost: parseFloat(s.shuttleCost),
+                        shuttlesUsed: parseInt(s.shuttlesUsed, 10),
+                        total: parseFloat(s.total),
+                        perPlayer: parseFloat(s.perPlayer)
+                    };
+                });
+                console.log("Data loaded/synced from Firestore.");
+            } else {
+                sessions = [];
+                console.log("No existing sessions found in Firestore. Starting fresh.");
+            }
+            // Always run the rendering functions after data sync
+            renderHistory();
+            renderMonthOptions();
+            updateMonthlyTable();
+            document.getElementById("status-message").textContent = "Data Synced.";
+        }, (error) => {
+            console.error("Error fetching data from Firestore:", error);
+            document.getElementById("status-message").textContent = "Error: Failed to sync data from Firestore. Check console for details.";
+        });
+    }
+
+    // Save data to Firestore (overwrites the whole sessions document)
+    async function saveData() {
+        if (!isAuthReady || !db || !userId) {
+            console.error("Cannot save data: Auth not ready or DB/UserID missing.");
+            return;
+        }
+
+        const docRef = getSessionDocRef();
+        if (!docRef) return;
+        
+        try {
+            // Save the entire array of sessions in a single document
+            await setDoc(docRef, { sessions: sessions });
+            console.log("Sessions saved to Firestore successfully.");
+            document.getElementById("status-message").textContent = "Changes Saved.";
+        } catch (error) {
+            console.error("Error saving data to Firestore:", error);
+            document.getElementById("status-message").textContent = "Error: Failed to save changes to Firestore.";
+        }
+    }
+
+
+    // --- APPLICATION LOGIC ---
+
+    function renderPlayerChecklist(containerId, sessionPlayers = []) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      allPlayers.forEach(player => {
+        const checked = sessionPlayers.includes(player) ? "checked" : "";
+        const html = `
+          <div style="display: flex; align-items: center;">
+            <input type="checkbox" id="${containerId}-${player.replace(/\s/g, '')}" name="player" value="${player}" ${checked} style="margin-right: 8px;">
+            <label for="${containerId}-${player.replace(/\s/g, '')}" style="margin-bottom: 0; font-weight: normal;">${player}</label>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
       });
+    }
+
+    function calculateMonthlySummary(monthKey) {
+      // If monthKey is an empty string, show all sessions
+      const filteredSessions = monthKey 
+        ? sessions.filter(s => s.monthKey === monthKey) 
+        : sessions;
+        
+      const summary = {};
+
+      filteredSessions.forEach(session => {
+        session.players.forEach(player => {
+          if (!summary[player]) {
+            summary[player] = {
+              sessionsCount: 0,
+              totalCost: 0
+            };
+          }
+          summary[player].sessionsCount += 1;
+          summary[player].totalCost += session.perPlayer;
+        });
+      });
+
+      // Calculate averages and format
+      const formattedSummary = Object.keys(summary).map(player => {
+        const data = summary[player];
+        return {
+          player: player,
+          sessionsCount: data.sessionsCount,
+          totalCost: data.totalCost.toFixed(2),
+          averageCost: (data.totalCost / data.sessionsCount).toFixed(2)
+        };
+      }).sort((a, b) => parseFloat(b.totalCost) - parseFloat(a.totalCost)); // Sort by total cost descending
+
+      return formattedSummary;
+    }
+
+    function renderMonthOptions() {
+      const monthKeys = [...new Set(sessions.map(s => s.monthKey))].sort().reverse();
+      const selector = document.getElementById("month-selector");
+      
+      // Determine the month to select: either the current one or the latest one with data
+      let defaultSelectedKey = new Date().toISOString().slice(0, 7);
+      if (monthKeys.length > 0 && !monthKeys.includes(defaultSelectedKey)) {
+          defaultSelectedKey = monthKeys[0]; // Select the latest month with data
+      }
+
+      let optionsHTML = `<option value="">All Months</option>`;
+
+      monthKeys.forEach(key => {
+        const date = new Date(key + "-01");
+        // Ensure month names are correctly formatted
+        const monthName = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        const selected = key === defaultSelectedKey ? "selected" : "";
+        optionsHTML += `<option value="${key}" ${selected}>${monthName}</option>`;
+      });
+
+      selector.innerHTML = optionsHTML;
+
+      // Re-run the table update based on the possibly new selection
+      updateMonthlyTable();
+    }
+
+    window.updateMonthlyTable = function() {
+      const monthKey = document.getElementById("month-selector").value;
+      const tableBody = document.querySelector("#monthly-table tbody");
+      tableBody.innerHTML = "";
+
+      const summaryData = calculateMonthlySummary(monthKey);
+      let grandTotalCost = 0;
+      let grandTotalSessions = 0;
+
+      if (summaryData.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--muted);">No sessions recorded for this month.</td></tr>';
+        return;
+      }
+
+      summaryData.forEach(data => {
+        grandTotalCost += parseFloat(data.totalCost);
+        grandTotalSessions += data.sessionsCount;
+
+        const row = `
+          <tr>
+            <td>${data.player}</td>
+            <td>${data.sessionsCount}</td>
+            <td>$${data.totalCost}</td>
+            <td>$${data.averageCost}</td>
+          </tr>
+        `;
+        tableBody.insertAdjacentHTML('beforeend', row);
+      });
+
+      // Add total row
+      const totalRow = `
+        <tr class="total-row">
+          <td>TOTAL</td>
+          <td>${grandTotalSessions}</td>
+          <td>$${grandTotalCost.toFixed(2)}</td>
+          <td>-</td>
+        </tr>
+      `;
+      tableBody.insertAdjacentHTML('beforeend', totalRow);
+    }
+
+    function renderHistory() {
+      const historyContainer = document.getElementById("sessions-history");
+      historyContainer.innerHTML = "";
+      document.getElementById("history-count").textContent = sessions.length;
+
+      if (sessions.length === 0) {
+         historyContainer.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 20px;">No sessions recorded yet. Add one above!</p>';
+         return;
+      }
+
+      // Sort by date descending
+      const sortedSessions = [...sessions].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      sortedSessions.forEach(session => {
+        const html = `
+          <div class="session-item">
+            <div class="session-details">
+              <p class="session-date">${session.date}</p>
+              <p class="session-cost">Total Cost: S$${session.total.toFixed(2)} | Cost per Player: S$${session.perPlayer.toFixed(2)}</p>
+              <p class="player-list">Players: ${session.players.join(', ')}</p>
+            </div>
+            <div class="session-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openEditModal('${session.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="confirmDeleteSession('${session.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+        historyContainer.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    // --- MODAL AND FORM FUNCTIONS (Module Scope) ---
+
+    // Add Session Logic (called by global openAddModal -> form submission)
+    document.getElementById("addForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      addNewSession();
     });
-  const names = Object.keys(totals).sort();
-  if (names.length === 0) {
-    body.innerHTML = `<tr><td colspan="2">No data for this month.</td></tr>`;
-    return;
-  }
-  names.forEach(name => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${name}</td><td>S$${totals[name].toFixed(2)}</td>`;
-    body.appendChild(tr);
-  });
-}
 
-function addPlayer() {
-  if (!requireAdmin()) return;
-  const input = document.getElementById("newPlayer");
-  const name = input.value.trim();
-  const err = document.getElementById("playerError");
-  err.style.display = "none";
-  if (!name || players.map(p => p.toLowerCase()).includes(name.toLowerCase())) {
-    err.style.display = "block";
-    return;
-  }
-  players.push(name);
-  input.value = "";
-  saveData();
-  renderPlayers();
-}
+    function addNewSession() {
+      const err = document.getElementById("add-err");
+      err.style.display = "none";
 
-function removePlayer(idx) {
-  if (!requireAdmin()) return;
-  if (!confirm("Remove this player from new sessions?")) return;
-  players.splice(idx, 1);
-  saveData();
-  renderPlayers();
-}
+      const date = document.getElementById("date").value;
+      const courtCost = parseFloat(document.getElementById("courtCost").value);
+      const shuttleCost = parseFloat(document.getElementById("shuttleCost").value);
+      const shuttlesUsed = parseInt(document.getElementById("shuttlesUsed").value, 10);
 
-// ----------------------------------------------------------------------
-// saveSession() - INCLUDES GOOGLE SHEET FETCH LOGIC
-// ----------------------------------------------------------------------
-function saveSession() {
-  if (!requireAdmin()) return;
-  const date = document.getElementById("sessionDate").value;
-  const courtCost = parseFloat(document.getElementById("courtCost").value);
-  const shuttleCost = parseFloat(document.getElementById("shuttleCost").value);
-  const shuttlesUsed = parseFloat(document.getElementById("shuttlesUsed").value);
-  const err = document.getElementById("sessionError");
-  err.style.display = "none";
+      const selectedPlayers = [];
+      const checkboxes = document.querySelectorAll("#playerChecklist input[name='player']");
+      checkboxes.forEach(cb => { if (cb.checked) selectedPlayers.push(cb.value); });
 
-  const selectedPlayers = [];
-  players.forEach((name, idx) => {
-    const cb = document.getElementById("pc_" + idx);
-    if (cb && cb.checked) selectedPlayers.push(name);
-  });
+      if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
+        err.style.display = "block";
+        return;
+      }
 
-  if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
-    err.style.display = "block";
-    return;
-  }
+      const total = courtCost + shuttleCost * shuttlesUsed;
+      const perPlayer = total / selectedPlayers.length;
 
-  const total = courtCost + shuttleCost * shuttlesUsed;
-  const perPlayer = total / selectedPlayers.length;
-  const sessionId = makeId();
+      const newSession = {
+        id: Date.now().toString(), // Use string ID for Firestore key compatibility
+        date: date,
+        monthKey: date.slice(0, 7),
+        courtCost: courtCost,
+        shuttleCost: shuttleCost,
+        shuttlesUsed: shuttlesUsed,
+        total: total,
+        perPlayer: perPlayer,
+        players: selectedPlayers,
+      };
 
-  // Session object for local storage
-  const session = {
-    id: sessionId,
-    date,
-    monthKey: date.slice(0, 7),
-    courtCost,
-    shuttleCost,
-    shuttlesUsed,
-    total,
-    perPlayer,
-    players: selectedPlayers
-  };
-  
-  // --- Google Sheet Submission Logic ---
-  const formData = new FormData();
-  formData.append('Action', 'ADD'); // Action parameter for the Apps Script
-  formData.append('ID', sessionId); // Send the unique ID
-  formData.append('Date', date);
-  formData.append('CourtCost', courtCost);
-  formData.append('ShuttleCost', shuttleCost);
-  formData.append('ShuttlesUsed', shuttlesUsed);
-  formData.append('Total', total.toFixed(2)); 
-  formData.append('PerPlayer', perPlayer.toFixed(2)); 
-  formData.append('Players', selectedPlayers.join(', ')); 
+      sessions.push(newSession);
+      saveData();
+      window.closeAddModal(); // Call global function
+    }
 
-  // Send data to Google Apps Script
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    body: formData,
-    mode: 'no-cors' 
-  })
-  .then(() => {
-    // Update local history only after submission is initiated
-    sessions.push(session);
-    saveData(); 
+    // Edit Modal (called by global openEditModal)
+    function moduleOpenEditModal(id) {
+      const session = sessions.find(s => s.id === id);
+      if (!session) return;
+      if (!window.requireAdmin()) return; // Call global function
+
+      document.getElementById("editSessionId").value = session.id;
+      document.getElementById("editDate").value = session.date;
+      document.getElementById("editCourtCost").value = session.courtCost;
+      document.getElementById("editShuttleCost").value = session.shuttleCost;
+      document.getElementById("editShuttlesUsed").value = session.shuttlesUsed;
+
+      renderPlayerChecklist("editPlayerChecklist", session.players);
+
+      document.getElementById("edit-err").style.display = "none";
+      editModal.style.display = "flex";
+    }
+
+    // Save Edited Session (called by global saveEditedSession)
+    function saveEditedSession() {
+      const sessionId = document.getElementById("editSessionId").value;
+      const sessionIndex = sessions.findIndex(s => s.id === sessionId);
+      if (sessionIndex === -1) return;
+
+      const err = document.getElementById("edit-err");
+      err.style.display = "none";
+
+      const date = document.getElementById("editDate").value;
+      const courtCost = parseFloat(document.getElementById("editCourtCost").value);
+      const shuttleCost = parseFloat(document.getElementById("editShuttleCost").value);
+      const shuttlesUsed = parseInt(document.getElementById("editShuttlesUsed").value, 10);
+
+      const selectedPlayers = [];
+      const checkboxes = document.querySelectorAll("#editPlayerChecklist input[name='player']");
+      checkboxes.forEach(cb => { if (cb.checked) selectedPlayers.push(cb.value); });
+
+      if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
+        err.style.display = "block";
+        return;
+      }
+
+      const total = courtCost + shuttleCost * shuttlesUsed;
+      const perPlayer = total / selectedPlayers.length;
+
+      sessions[sessionIndex] = {
+        id: sessionId,
+        date: date,
+        monthKey: date.slice(0, 7),
+        courtCost: courtCost,
+        shuttleCost: shuttleCost,
+        shuttlesUsed: shuttlesUsed,
+        total: total,
+        perPlayer: perPlayer,
+        players: selectedPlayers,
+      };
+
+      saveData();
+      window.closeEditModal(); // Call global function
+    }
+
+    // Confirmation Modal Implementation (Module Logic)
+    function openConfirmModal(title, message, action) {
+      document.getElementById("confirm-title").textContent = title;
+      document.getElementById("confirm-message").textContent = message;
+      // Set the pending action and ensure the button triggers it
+      confirmActionBtn.onclick = () => {
+        action();
+        window.closeConfirmModal(); // Call global function
+      };
+      confirmModal.style.display = "flex";
+    }
+
+    // Function called by the global confirmDeleteSession
+    function moduleConfirmDeleteSession(id) {
+        openConfirmModal(
+            "Delete Session",
+            "Are you sure you want to permanently delete this session record?",
+            () => deleteSession(id)
+        );
+    }
     
-    // Update summary UI elements
-    document.getElementById("summaryTotal").textContent = "S$" + total.toFixed(2);
-    document.getElementById("summaryPerPlayer").textContent = "S$" + perPlayer.toFixed(2);
-    document.getElementById("summaryPlayers").textContent = selectedPlayers.length + " player(s)";
+    // Function called by the global deleteSessionFromEdit
+    function moduleDeleteSessionFromEdit() {
+        const id = document.getElementById("editSessionId").value;
+        window.closeEditModal(); // Call global function
+        // Since admin check already passed to open edit modal, we can directly show confirm
+        openConfirmModal(
+            "Delete Session",
+            "Are you sure you want to permanently delete this session record?",
+            () => deleteSession(id)
+        );
+    }
 
-    // Update history UI
-    renderHistory();
-    renderMonthOptions();
-    updateMonthlyTable();
-    clearSessionForm(); 
-    
-    console.log('Session data submission initiated. Local history updated.');
-  })
-  .catch(error => {
-    console.error('Error submitting data to Google Sheet:', error);
-    alert('Failed to save session data to Google Sheet. Please check your internet connection or the script URL.');
-  });
-}
+    function deleteSession(id) {
+      sessions = sessions.filter(s => s.id !== id);
+      saveData();
+      // Rendering functions are automatically called by the onSnapshot listener after saveData
+    }
 
-function clearSessionForm() {
-  if (!requireAdmin()) return;
-  ["sessionDate", "courtCost", "shuttleCost", "shuttlesUsed"].forEach(id => {
-    document.getElementById(id).value = "";
-  });
-  players.forEach((_, idx) => {
-    const cb = document.getElementById("pc_" + idx);
-    if (cb) cb.checked = false;
-  });
-  document.getElementById("summaryTotal").textContent = "S$0.00";
-  document.getElementById("summaryPerPlayer").textContent = "S$0.00";
-  document.getElementById("summaryPlayers").textContent = "–";
-  document.getElementById("sessionError").style.display = "none";
-}
+    // --- INITIALIZATION ---
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("year").textContent = new Date().getFullYear();
+      // renderPlayerChecklist("playerChecklist"); // This is now called inside openAddModal
+      initFirebase(); // Start Firebase init and data loading
+    });
 
-function openEditModal(id) {
-  if (!requireAdmin()) return;
-  currentEditId = id;
-  const session = sessions.find(s => s.id === id);
-  if (!session) return;
-
-  document.getElementById("editDate").value = session.date;
-  document.getElementById("editCourtCost").value = session.courtCost;
-  document.getElementById("editShuttleCost").value = session.shuttleCost;
-  document.getElementById("editShuttlesUsed").value = session.shuttlesUsed;
-
-  const container = document.getElementById("editPlayerChecklist");
-  container.innerHTML = "";
-  const unionPlayers = Array.from(new Set([...players, ...session.players]));
-  // Use a unique ID based on the player name for the edit modal checkboxes
-  unionPlayers.forEach((name) => {
-    const checked = session.players.includes(name);
-    const row = document.createElement("div");
-    const checkboxId = `epc_edit_${name.replace(/\s/g, '_')}`; 
-    row.innerHTML = `
-      <input type="checkbox" id="${checkboxId}" value="${name}" ${checked ? "checked" : ""}>
-      <label for="${checkboxId}" style="font-weight:400;">${name}</label>
-    `;
-    container.appendChild(row);
-  });
-
-  document.getElementById("editModal").style.display = "flex";
-  document.getElementById("editError").style.display = "none";
-}
-
-function closeEditModal() {
-  currentEditId = null;
-  document.getElementById("editModal").style.display = "none";
-}
-
-// ----------------------------------------------------------------------
-// saveEditChanges() - INCLUDES GOOGLE SHEET FETCH LOGIC
-// ----------------------------------------------------------------------
-function saveEditChanges() {
-  if (!requireAdmin()) return;
-  if (!currentEditId) return;
-  const session = sessions.find(s => s.id === currentEditId);
-  if (!session) return;
-
-  const err = document.getElementById("editError");
-  err.style.display = "none";
-
-  const date = document.getElementById("editDate").value;
-  const courtCost = parseFloat(document.getElementById("editCourtCost").value);
-  const shuttleCost = parseFloat(document.getElementById("editShuttleCost").value);
-  const shuttlesUsed = parseFloat(document.getElementById("editShuttlesUsed").value);
-
-  const selectedPlayers = [];
-  const checkboxes = document.querySelectorAll("#editPlayerChecklist input");
-  checkboxes.forEach(cb => { if (cb.checked) selectedPlayers.push(cb.value); });
-
-  if (!date || isNaN(courtCost) || isNaN(shuttleCost) || isNaN(shuttlesUsed) || selectedPlayers.length === 0) {
-    err.style.display = "block";
-    return;
-  }
-
-  const total = courtCost + shuttleCost * shuttlesUsed;
-  const perPlayer = total / selectedPlayers.length;
-
-  // 1. Update the local session object
-  session.date = date;
-  session.monthKey = date.slice(0, 7);
-  session.courtCost = courtCost;
-  session.shuttleCost = shuttleCost;
-  session.shuttlesUsed = shuttlesUsed;
-  session.total = total;
-  session.perPlayer = perPlayer;
-  session.players = selectedPlayers;
-  
-  // 2. Prepare data for Google Sheet Update
-  const formData = new FormData();
-  formData.append('Action', 'EDIT'); // Specify the action
-  formData.append('ID', session.id); // The unique ID for lookup
-  formData.append('Date', date);
-  formData.append('CourtCost', courtCost);
-  formData.append('ShuttleCost', shuttleCost);
-  formData.append('ShuttlesUsed', shuttlesUsed);
-  formData.append('Total', total.toFixed(2)); 
-  formData.append('PerPlayer', perPlayer.toFixed(2)); 
-  formData.append('Players', selectedPlayers.join(', ')); 
-
-  // 3. Send update to Google Apps Script
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    body: formData,
-    mode: 'no-cors'
-  })
-  .then(() => {
-    // 4. Update UI after submission is initiated
-    saveData();
-    renderHistory();
-    renderMonthOptions();
-    updateMonthlyTable();
-    closeEditModal();
-    console.log(`Edit for session ${session.id} initiated.`);
-  })
-  .catch(error => {
-    alert('Failed to sync edit to Google Sheet. Check connection.');
-    console.error('Error syncing edit:', error);
-  });
-}
-
-// ----------------------------------------------------------------------
-// deleteSession() - INCLUDES GOOGLE SHEET FETCH LOGIC
-// ----------------------------------------------------------------------
-function deleteSession(id) {
-  if (!requireAdmin()) return;
-  if (!confirm("Delete this session? This action will also attempt to delete the entry in the Google Sheet.")) return;
-
-  // 1. Prepare data for Google Sheet Delete
-  const formData = new FormData();
-  formData.append('Action', 'DELETE'); // Specify the action
-  formData.append('ID', id); // The unique ID for lookup
-
-  // 2. Send delete command to Google Apps Script
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    body: formData,
-    mode: 'no-cors'
-  })
-  .then(() => {
-    // 3. Update local history only after successful submission
-    sessions = sessions.filter(s => s.id !== id);
-    saveData();
-    renderHistory();
-    renderMonthOptions();
-    updateMonthlyTable();
-    console.log(`Delete for session ${id} initiated. Local history updated.`);
-  })
-  .catch(error => {
-    alert('Failed to sync delete to Google Sheet. The local session was NOT deleted. Check connection.');
-    console.error('Error syncing delete:', error);
-  });
-}
-
-// ----------------------------------------------------------------------
-// 3. UPDATED DOMContentLoaded: AWAITS DATA LOAD
-// ----------------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", async () => {
-  document.getElementById("year").textContent = new Date().getFullYear();
-  await loadData(); // AWAIT the data load from the server
-  setAdminMode(false);
-  renderPlayers();
-  renderHistory();
-  renderMonthOptions();
-  updateMonthlyTable();
-});
-</script>
-
+  </script>
 </body>
 </html>
