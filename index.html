@@ -311,13 +311,11 @@ input[type="date"], input[type="number"], .select-month {
       <p>Your unique User ID (for sharing/admin tasks): <span id="user-id"></span></p>
     </section>
 
-    <!-- Monthly Summary Section -->
     <section class="monthly-summary card">
       <div class="flex-between">
         <h2>Monthly Summary</h2>
         <select id="month-selector" class="select-month" onchange="updateMonthlyTable()" style="width: auto;">
-          <!-- Options populated by JS -->
-        </select>
+          </select>
       </div>
 
       <div class="table-container">
@@ -331,18 +329,15 @@ input[type="date"], input[type="number"], .select-month {
             </tr>
           </thead>
           <tbody>
-            <!-- Table rows populated by JS -->
-          </tbody>
+            </tbody>
         </table>
       </div>
     </section>
 
-    <!-- History Section -->
     <section class="history-list card">
       <h2>Session History (<span id="history-count">0</span>)</h2>
       <div id="sessions-history">
-        <!-- Session items populated by JS -->
-      </div>
+        </div>
     </section>
 
     <footer>
@@ -350,7 +345,6 @@ input[type="date"], input[type="number"], .select-month {
     </footer>
   </main>
 
-  <!-- Add Session Modal -->
   <div id="addModal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
@@ -372,8 +366,7 @@ input[type="date"], input[type="number"], .select-month {
 
         <label>Players Attended</label>
         <div id="playerChecklist" class="checklist-container">
-          <!-- Checkboxes populated by JS -->
-        </div>
+          </div>
 
         <p id="add-err" class="error-message">Please fill all fields and select at least one player.</p>
 
@@ -382,7 +375,6 @@ input[type="date"], input[type="number"], .select-month {
     </div>
   </div>
 
-  <!-- Edit Session Modal -->
   <div id="editModal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
@@ -406,8 +398,7 @@ input[type="date"], input[type="number"], .select-month {
 
         <label>Players Attended</label>
         <div id="editPlayerChecklist" class="checklist-container">
-          <!-- Checkboxes populated by JS -->
-        </div>
+          </div>
 
         <p id="edit-err" class="error-message">Please fill all fields and select at least one player.</p>
 
@@ -417,7 +408,6 @@ input[type="date"], input[type="number"], .select-month {
     </div>
   </div>
 
-  <!-- Confirmation Modal (Replaces confirm()) -->
   <div id="confirmModal" class="modal-overlay" style="display: none;">
     <div class="modal-content" style="width: 350px;">
       <div class="modal-header" style="border-bottom: none; margin-bottom: 0;">
