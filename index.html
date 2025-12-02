@@ -654,7 +654,7 @@ let isAdmin = false;
 const ADMIN_PIN = "2495"; // <-- CHANGE THIS to your own secret PIN
 
 // ----------------------------------------------------------------------
-// 1. YOUR GOOGLE APPS SCRIPT WEB APP URL
+// 1. YOUR GOOGLE APPS SCRIPT WEB APP URL (YOUR PROVIDED URL)
 // ----------------------------------------------------------------------
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhTnMAjj_fQ6_Qa1WOAnW5qDK8FjfvYWJLh-eVfm5kI2RoeedcO_ckpfD34tmkUWwELA/exec'; 
 
@@ -825,7 +825,7 @@ function removePlayer(idx) {
 }
 
 // ----------------------------------------------------------------------
-// 2. UPDATED saveSession() with 'Action: ADD' parameter
+// 2. saveSession() - NOW SENDS DATA TO GOOGLE SHEET
 // ----------------------------------------------------------------------
 function saveSession() {
   if (!requireAdmin()) return;
@@ -934,7 +934,8 @@ function openEditModal(id) {
   const container = document.getElementById("editPlayerChecklist");
   container.innerHTML = "";
   const unionPlayers = Array.from(new Set([...players, ...session.players]));
-  unionPlayers.forEach((name, idx) => {
+  // Use a unique ID based on the player name for the edit modal checkboxes
+  unionPlayers.forEach((name) => {
     const checked = session.players.includes(name);
     const row = document.createElement("div");
     const checkboxId = `epc_edit_${name.replace(/\s/g, '_')}`; 
@@ -955,7 +956,7 @@ function closeEditModal() {
 }
 
 // ----------------------------------------------------------------------
-// 3. UPDATED saveEditChanges() to sync with Google Sheet
+// 3. saveEditChanges() - NOW SENDS EDIT TO GOOGLE SHEET
 // ----------------------------------------------------------------------
 function saveEditChanges() {
   if (!requireAdmin()) return;
@@ -1027,7 +1028,7 @@ function saveEditChanges() {
 }
 
 // ----------------------------------------------------------------------
-// 4. UPDATED deleteSession() to sync with Google Sheet
+// 4. deleteSession() - NOW SENDS DELETE COMMAND TO GOOGLE SHEET
 // ----------------------------------------------------------------------
 function deleteSession(id) {
   if (!requireAdmin()) return;
