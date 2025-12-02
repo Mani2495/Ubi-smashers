@@ -825,7 +825,7 @@ function removePlayer(idx) {
 }
 
 // ----------------------------------------------------------------------
-// 2. FIXED saveSession() with fetch and reliable local update in .then()
+// 2. UPDATED saveSession() with 'Action: ADD' parameter
 // ----------------------------------------------------------------------
 function saveSession() {
   if (!requireAdmin()) return;
@@ -849,10 +849,11 @@ function saveSession() {
 
   const total = courtCost + shuttleCost * shuttlesUsed;
   const perPlayer = total / selectedPlayers.length;
+  const sessionId = makeId();
 
   // Session object for local storage
   const session = {
-    id: makeId(),
+    id: sessionId,
     date,
     monthKey: date.slice(0, 7),
     courtCost,
@@ -864,27 +865,25 @@ function saveSession() {
   };
   
   // --- Google Sheet Submission Logic ---
-  
-  // 1. Prepare data for Google Sheets. Keys must match your sheet headers!
   const formData = new FormData();
+  formData.append('Action', 'ADD'); // Action parameter for the Apps Script
+  formData.append('ID', sessionId); // Send the unique ID
   formData.append('Date', date);
   formData.append('CourtCost', courtCost);
   formData.append('ShuttleCost', shuttleCost);
   formData.append('ShuttlesUsed', shuttlesUsed);
   formData.append('Total', total.toFixed(2)); 
   formData.append('PerPlayer', perPlayer.toFixed(2)); 
-  // Convert player array to a single comma-separated string
   formData.append('Players', selectedPlayers.join(', ')); 
 
   // 2. Send data to Google Apps Script
   fetch(SCRIPT_URL, {
     method: 'POST',
     body: formData,
-    mode: 'no-cors' // Recommended for cross-domain POST to Apps Script endpoint
+    mode: 'no-cors' 
   })
   .then(() => {
-    // 3. Save to local storage and update UI only after the network request is initiated.
-    // This is the fix to ensure updates occur after submission.
+    // 3. Update local history only after submission is initiated
     sessions.push(session);
     saveData(); 
     
@@ -897,28 +896,24 @@ function saveSession() {
     renderHistory();
     renderMonthOptions();
     updateMonthlyTable();
-    clearSessionForm(); // Clear the form after success
+    clearSessionForm(); 
     
-    console.log('Session data submission initiated (check Google Sheet for result). Local history updated.');
+    console.log('Session data submission initiated. Local history updated.');
   })
   .catch(error => {
-    // Handle error case (e.g., local connection issue)
     console.error('Error submitting data to Google Sheet:', error);
     alert('Failed to save session data to Google Sheet. Please check your internet connection or the script URL.');
   });
 }
 
 function clearSessionForm() {
-  // Clear inputs
   ["sessionDate", "courtCost", "shuttleCost", "shuttlesUsed"].forEach(id => {
     document.getElementById(id).value = "";
   });
-  // Uncheck all players
   players.forEach((_, idx) => {
     const cb = document.getElementById("pc_" + idx);
     if (cb) cb.checked = false;
   });
-  // Clear summary
   document.getElementById("summaryTotal").textContent = "S$0.00";
   document.getElementById("summaryPerPlayer").textContent = "S$0.00";
   document.getElementById("summaryPlayers").textContent = "–";
@@ -938,12 +933,10 @@ function openEditModal(id) {
 
   const container = document.getElementById("editPlayerChecklist");
   container.innerHTML = "";
-  // Include all current players plus any players in the session that might have been removed from the list
   const unionPlayers = Array.from(new Set([...players, ...session.players]));
   unionPlayers.forEach((name, idx) => {
     const checked = session.players.includes(name);
     const row = document.createElement("div");
-    // Use a unique and predictable ID for the edit checklist checkboxes
     const checkboxId = `epc_edit_${name.replace(/\s/g, '_')}`; 
     row.innerHTML = `
       <input type="checkbox" id="${checkboxId}" value="${name}" ${checked ? "checked" : ""}>
@@ -961,6 +954,9 @@ function closeEditModal() {
   document.getElementById("editModal").style.display = "none";
 }
 
+// ----------------------------------------------------------------------
+// 3. UPDATED saveEditChanges() to sync with Google Sheet
+// ----------------------------------------------------------------------
 function saveEditChanges() {
   if (!requireAdmin()) return;
   if (!currentEditId) return;
@@ -987,6 +983,7 @@ function saveEditChanges() {
   const total = courtCost + shuttleCost * shuttlesUsed;
   const perPlayer = total / selectedPlayers.length;
 
+  // 1. Update the local session object
   session.date = date;
   session.monthKey = date.slice(0, 7);
   session.courtCost = courtCost;
@@ -996,30 +993,70 @@ function saveEditChanges() {
   session.perPlayer = perPlayer;
   session.players = selectedPlayers;
   
-  // NOTE: For full synchronisation, you would need to implement an additional 
-  // Apps Script function and a fetch call here to update the corresponding
-  // row in your Google Sheet based on the session ID.
+  // 2. Prepare data for Google Sheet Update
+  const formData = new FormData();
+  formData.append('Action', 'EDIT'); // Specify the action
+  formData.append('ID', session.id); // The unique ID for lookup
+  formData.append('Date', date);
+  formData.append('CourtCost', courtCost);
+  formData.append('ShuttleCost', shuttleCost);
+  formData.append('ShuttlesUsed', shuttlesUsed);
+  formData.append('Total', total.toFixed(2)); 
+  formData.append('PerPlayer', perPlayer.toFixed(2)); 
+  formData.append('Players', selectedPlayers.join(', ')); 
 
-  saveData();
-  renderHistory();
-  renderMonthOptions();
-  updateMonthlyTable();
-  closeEditModal();
+  // 3. Send update to Google Apps Script
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: formData,
+    mode: 'no-cors'
+  })
+  .then(() => {
+    // 4. Update UI after submission is initiated
+    saveData();
+    renderHistory();
+    renderMonthOptions();
+    updateMonthlyTable();
+    closeEditModal();
+    console.log(`Edit for session ${session.id} initiated.`);
+  })
+  .catch(error => {
+    alert('Failed to sync edit to Google Sheet. Check connection.');
+    console.error('Error syncing edit:', error);
+  });
 }
 
+// ----------------------------------------------------------------------
+// 4. UPDATED deleteSession() to sync with Google Sheet
+// ----------------------------------------------------------------------
 function deleteSession(id) {
   if (!requireAdmin()) return;
-  if (!confirm("Delete this session?")) return;
-  sessions = sessions.filter(s => s.id !== id);
-  
-  // NOTE: For full synchronisation, you would need to implement an additional 
-  // Apps Script function and a fetch call here to delete the corresponding
-  // row in your Google Sheet based on the session ID.
+  if (!confirm("Delete this session? This action will also attempt to delete the entry in the Google Sheet.")) return;
 
-  saveData();
-  renderHistory();
-  renderMonthOptions();
-  updateMonthlyTable();
+  // 1. Prepare data for Google Sheet Delete
+  const formData = new FormData();
+  formData.append('Action', 'DELETE'); // Specify the action
+  formData.append('ID', id); // The unique ID for lookup
+
+  // 2. Send delete command to Google Apps Script
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: formData,
+    mode: 'no-cors'
+  })
+  .then(() => {
+    // 3. Update local history only after successful submission
+    sessions = sessions.filter(s => s.id !== id);
+    saveData();
+    renderHistory();
+    renderMonthOptions();
+    updateMonthlyTable();
+    console.log(`Delete for session ${id} initiated. Local history updated.`);
+  })
+  .catch(error => {
+    alert('Failed to sync delete to Google Sheet. The local session was NOT deleted. Check connection.');
+    console.error('Error syncing delete:', error);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
