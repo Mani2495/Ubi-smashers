@@ -657,7 +657,6 @@ const ADMIN_PIN = "2495"; // <-- CHANGE THIS to your own secret PIN
 // 1. YOUR GOOGLE APPS SCRIPT WEB APP URL (CONFIRMED)
 // ----------------------------------------------------------------------
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhTnMAjj_fQ6_Qa1WOAnW5qDK8FjfvYWJLh-eVfm5kI2RoeedcO_ckpfD34tmkUWwELA/exec'; 
-// ----------------------------------------------------------------------
 
 function setAdminMode(on) {
   isAdmin = on;
@@ -692,18 +691,47 @@ function makeId() {
   return "s_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
 }
 
-function loadData() {
+// ----------------------------------------------------------------------
+// 2. UPDATED loadData: FETCHES SESSIONS FROM GOOGLE SHEET
+// ----------------------------------------------------------------------
+async function loadData() {
+  // Load player list from local storage first (players are managed locally)
   const p = localStorage.getItem("ubiPlayers");
-  const s = localStorage.getItem("ubiSessions");
   players = p ? JSON.parse(p) : [];
-  sessions = s ? JSON.parse(s) : [];
   if (players.length === 0) players = ["Player 1", "Player 2"];
-  sessions.forEach(sess => { if (!sess.id) sess.id = makeId(); });
+
+  try {
+    // Fetch sessions from Google Apps Script using doGet
+    const response = await fetch(`${SCRIPT_URL}?action=GET_DATA`);
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    // Process the JSON data
+    const sheetSessions = await response.json();
+    
+    // Use the data from the Google Sheet
+    sessions = sheetSessions;
+    // Ensure all sessions have an ID (for safety/backward compatibility)
+    sessions.forEach(sess => { if (!sess.id) sess.id = makeId(); });
+    
+    // Also update local storage with the latest data from the sheet for quick loads
+    localStorage.setItem("ubiSessions", JSON.stringify(sessions));
+    console.log(`Successfully loaded ${sessions.length} sessions from Google Sheet.`);
+
+  } catch (error) {
+    // Fallback to local storage if fetch fails (e.g., connection issue)
+    console.error('Failed to fetch data from Google Sheet. Falling back to local storage.', error);
+    const s = localStorage.getItem("ubiSessions");
+    sessions = s ? JSON.parse(s) : [];
+  }
 }
 
 function saveData() {
   localStorage.setItem("ubiPlayers", JSON.stringify(players));
-  localStorage.setItem("ubiSessions", JSON.stringify(sessions));
+  // Note: Session data is primarily synced via Apps Script, this is for fallback cache
+  localStorage.setItem("ubiSessions", JSON.stringify(sessions)); 
 }
 
 function renderPlayers() {
@@ -826,7 +854,7 @@ function removePlayer(idx) {
 }
 
 // ----------------------------------------------------------------------
-// saveSession() - NOW INCLUDES GOOGLE SHEET FETCH LOGIC
+// saveSession() - INCLUDES GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function saveSession() {
   if (!requireAdmin()) return;
@@ -958,7 +986,7 @@ function closeEditModal() {
 }
 
 // ----------------------------------------------------------------------
-// saveEditChanges() - NOW INCLUDES GOOGLE SHEET FETCH LOGIC
+// saveEditChanges() - INCLUDES GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function saveEditChanges() {
   if (!requireAdmin()) return;
@@ -1030,7 +1058,7 @@ function saveEditChanges() {
 }
 
 // ----------------------------------------------------------------------
-// deleteSession() - NOW INCLUDES GOOGLE SHEET FETCH LOGIC
+// deleteSession() - INCLUDES GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function deleteSession(id) {
   if (!requireAdmin()) return;
@@ -1062,13 +1090,19 @@ function deleteSession(id) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+// ----------------------------------------------------------------------
+// 3. UPDATED DOMContentLoaded: AWAITS DATA LOAD
+// ----------------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("year").textContent = new Date().getFullYear();
-  loadData();
-  setAdminMode(false); // start in view-only mode
+  await loadData(); // AWAIT the data load from the server
+  setAdminMode(false);
   renderPlayers();
   renderHistory();
   renderMonthOptions();
   updateMonthlyTable();
 });
 </script>
+
+</body>
+</html>
