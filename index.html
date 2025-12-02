@@ -657,6 +657,7 @@ const ADMIN_PIN = "2495"; // <-- CHANGE THIS to your own secret PIN
 // 1. YOUR GOOGLE APPS SCRIPT WEB APP URL (CONFIRMED)
 // ----------------------------------------------------------------------
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhTnMAjj_fQ6_Qa1WOAnW5qDK8FjfvYWJLh-eVfm5kI2RoeedcO_ckpfD34tmkUWwELA/exec'; 
+// ----------------------------------------------------------------------
 
 function setAdminMode(on) {
   isAdmin = on;
@@ -825,7 +826,7 @@ function removePlayer(idx) {
 }
 
 // ----------------------------------------------------------------------
-// 2. saveSession() - UPDATED WITH GOOGLE SHEET FETCH LOGIC
+// saveSession() - NOW INCLUDES GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function saveSession() {
   if (!requireAdmin()) return;
@@ -876,14 +877,14 @@ function saveSession() {
   formData.append('PerPlayer', perPlayer.toFixed(2)); 
   formData.append('Players', selectedPlayers.join(', ')); 
 
-  // 2. Send data to Google Apps Script
+  // Send data to Google Apps Script
   fetch(SCRIPT_URL, {
     method: 'POST',
     body: formData,
     mode: 'no-cors' 
   })
   .then(() => {
-    // 3. Update local history only after submission is initiated
+    // Update local history only after submission is initiated
     sessions.push(session);
     saveData(); 
     
@@ -907,6 +908,7 @@ function saveSession() {
 }
 
 function clearSessionForm() {
+  if (!requireAdmin()) return;
   ["sessionDate", "courtCost", "shuttleCost", "shuttlesUsed"].forEach(id => {
     document.getElementById(id).value = "";
   });
@@ -956,7 +958,7 @@ function closeEditModal() {
 }
 
 // ----------------------------------------------------------------------
-// 3. saveEditChanges() - UPDATED WITH GOOGLE SHEET FETCH LOGIC
+// saveEditChanges() - NOW INCLUDES GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function saveEditChanges() {
   if (!requireAdmin()) return;
@@ -1028,7 +1030,7 @@ function saveEditChanges() {
 }
 
 // ----------------------------------------------------------------------
-// 4. deleteSession() - UPDATED WITH GOOGLE SHEET FETCH LOGIC
+// deleteSession() - NOW INCLUDES GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function deleteSession(id) {
   if (!requireAdmin()) return;
@@ -1070,6 +1072,3 @@ document.addEventListener("DOMContentLoaded", () => {
   updateMonthlyTable();
 });
 </script>
-
-</body>
-</html>
