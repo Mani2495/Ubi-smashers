@@ -654,7 +654,7 @@ let isAdmin = false;
 const ADMIN_PIN = "2495"; // <-- CHANGE THIS to your own secret PIN
 
 // ----------------------------------------------------------------------
-// 1. YOUR GOOGLE APPS SCRIPT WEB APP URL (YOUR PROVIDED URL)
+// 1. YOUR GOOGLE APPS SCRIPT WEB APP URL (CONFIRMED)
 // ----------------------------------------------------------------------
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhTnMAjj_fQ6_Qa1WOAnW5qDK8FjfvYWJLh-eVfm5kI2RoeedcO_ckpfD34tmkUWwELA/exec'; 
 
@@ -825,7 +825,7 @@ function removePlayer(idx) {
 }
 
 // ----------------------------------------------------------------------
-// 2. saveSession() - NOW SENDS DATA TO GOOGLE SHEET
+// 2. saveSession() - UPDATED WITH GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function saveSession() {
   if (!requireAdmin()) return;
@@ -956,7 +956,7 @@ function closeEditModal() {
 }
 
 // ----------------------------------------------------------------------
-// 3. saveEditChanges() - NOW SENDS EDIT TO GOOGLE SHEET
+// 3. saveEditChanges() - UPDATED WITH GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function saveEditChanges() {
   if (!requireAdmin()) return;
@@ -1028,7 +1028,7 @@ function saveEditChanges() {
 }
 
 // ----------------------------------------------------------------------
-// 4. deleteSession() - NOW SENDS DELETE COMMAND TO GOOGLE SHEET
+// 4. deleteSession() - UPDATED WITH GOOGLE SHEET FETCH LOGIC
 // ----------------------------------------------------------------------
 function deleteSession(id) {
   if (!requireAdmin()) return;
